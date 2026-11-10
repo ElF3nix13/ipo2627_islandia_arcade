@@ -12,91 +12,91 @@
 
 <body>
     <!-- Botón global de Ayuda -->
-    <button id="btn-ayuda" class="btn-flotante" aria-label="Ayuda">?</button>
+    <button id="btn-abrir-ayuda" class="btn btn--flotante" aria-label="Ayuda">?</button>
 
-    <!-- PANTALLA INICIAL -->
-    <section id="vista-inicio" class="pantalla activa">
-        <div class="contenedor-centro">
-            <h1 class="titulo-juego">ARKANOID</h1>
-            
-            <div id="menu-principal" class="menu-bloque">
-                <button id="btn-jugar-inicio" class="btn-grande">JUGAR</button>
-                <button id="btn-mostrar-ajustes" class="btn-mediano">Ajustes</button>
-            </div>
-
-            <div id="menu-ajustes" class="menu-bloque oculto">
-                <h2>Configuración</h2>
+    <main class="contenedor-principal">
+        <!-- PANTALLA INICIAL (Menú y Ajustes) -->
+        <section id="pantalla-inicio" class="pantalla pantalla--activa">
+            <div class="caja-menu">
+                <h1 class="titulo-juego">ARKANOID</h1>
                 
-                <div class="ajuste-grupo">
-                    <label>Tamaño de la Paleta:</label>
-                    <div class="segmented-control" id="control-paleta">
-                        <button data-val="pequena" class="btn-seg">Pequeña</button>
-                        <button data-val="mediana" class="btn-seg activo">Mediana</button>
-                        <button data-val="grande" class="btn-seg">Grande</button>
+                <!-- Menú Principal -->
+                <div id="menu-principal" class="menu-bloque">
+                    <button id="btn-jugar" class="btn btn--primario btn--grande">Jugar</button>
+                    <button id="btn-ajustes" class="btn btn--secundario btn--mediano">Ajustes</button>
+                </div>
+
+                <!-- Menú de Ajustes -->
+                <div id="menu-ajustes" class="menu-bloque oculto">
+                    <h2 class="subtitulo">Configuración</h2>
+                    
+                    <div class="ajuste-grupo">
+                        <label>Tamaño de la Paleta</label>
+                        <div class="control-segmentado" id="control-paleta">
+                            <button class="btn-seg" data-val="pequena">Pequeña</button>
+                            <button class="btn-seg activo" data-val="mediana">Mediana</button>
+                            <button class="btn-seg" data-val="grande">Grande</button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="ajuste-grupo">
-                    <label>Velocidad de la Bola:</label>
-                    <div class="segmented-control" id="control-velocidad">
-                        <button data-val="lenta" class="btn-seg">Lenta</button>
-                        <button data-val="normal" class="btn-seg activo">Normal</button>
-                        <button data-val="rapida" class="btn-seg">Rápida</button>
+                    <div class="ajuste-grupo">
+                        <label>Velocidad de la Bola</label>
+                        <div class="control-segmentado" id="control-velocidad">
+                            <button class="btn-seg" data-val="lenta">Lenta</button>
+                            <button class="btn-seg activo" data-val="normal">Normal</button>
+                            <button class="btn-seg" data-val="rapida">Rápida</button>
+                        </div>
                     </div>
+
+                    <div class="ajuste-grupo">
+                        <label>Filas de Ladrillos: <span id="valor-filas">4</span></label>
+                        <input type="range" id="input-filas" min="2" max="8" value="4">
+                    </div>
+
+                    <button id="btn-guardar-ajustes" class="btn btn--primario btn--mediano">Guardar</button>
                 </div>
+            </div>
+        </section>
 
-                <div class="ajuste-grupo">
-                    <label>Filas de Ladrillos: <span id="valor-filas">5</span></label>
-                    <input type="range" id="control-filas" min="3" max="8" value="5">
+        <!-- PANTALLA DE JUEGO -->
+        <section id="pantalla-juego" class="pantalla oculto">
+            <div class="hud-juego">
+                <div class="hud-stats">
+                    <span id="indicador-vidas">❤️❤️❤️</span>
+                    <span>⏱️ <span id="indicador-tiempo">0</span>s</span>
                 </div>
-
-                <button id="btn-guardar-ajustes" class="btn-mediano">Guardar y Volver</button>
+                <button id="btn-pausa" class="btn btn--secundario">Pausar</button>
             </div>
-        </div>
-    </section>
-
-    <!-- PANTALLA DE JUEGO -->
-    <section id="vista-juego" class="pantalla oculto">
-        <div class="hud-juego">
-            <div class="hud-stats">
-                <div class="vidas" id="indicador-vidas">❤️❤️❤️</div>
-                <div class="tiempo">Tiempo: <span id="indicador-tiempo">0</span>s</div>
+            <div class="canvas-contenedor">
+                <canvas id="canvas-juego" width="800" height="500"></canvas>
             </div>
-            <button id="btn-pausa" class="btn-accion">⏸ Pausa</button>
-        </div>
-        
-        <div class="canvas-contenedor">
-            <canvas id="canvas-juego" width="800" height="600"></canvas>
-        </div>
-    </section>
+        </section>
 
-    <!-- PANTALLA DE FIN -->
-    <section id="vista-fin" class="pantalla oculto">
-        <div class="contenedor-centro">
-            <h1 id="titulo-fin">¡Partida Terminada!</h1>
-            <p class="resultado-tiempo">Tiempo final: <span id="tiempo-final">0</span> segundos</p>
-            <button id="btn-nueva-partida" class="btn-grande">Nueva Partida</button>
-        </div>
-    </section>
+        <!-- PANTALLA DE FIN -->
+        <section id="pantalla-fin" class="pantalla oculto">
+            <div class="caja-menu">
+                <h2 id="titulo-fin" class="titulo-juego">Fin</h2>
+                <p class="resultado-tiempo">Tiempo total: <strong id="tiempo-final">0</strong>s</p>
+                <button id="btn-nueva-partida" class="btn btn--primario btn--grande">Nueva Partida</button>
+            </div>
+        </section>
+    </main>
 
-    <!-- MODAL DE AYUDA -->
+    <!-- MODALES NATIVOS -->
     <dialog id="modal-ayuda" class="modal">
         <div class="modal-contenido">
-            <h2>Reglas del Juego</h2>
-            <p><strong>Objetivo:</strong> Destruye todos los ladrillos con la bola antes de perder tus 3 vidas.</p>
-            <p><strong>Controles:</strong> Mueve el ratón de izquierda a derecha dentro de la zona de juego para desplazar la paleta y rebotar la bola.</p>
-            <button id="btn-cerrar-ayuda" class="btn-mediano">Entendido</button>
+            <h2 class="subtitulo">Cómo jugar</h2>
+            <p>Destruye todos los ladrillos para ganar. Evita que la bola caiga por debajo de la pantalla o perderás una vida.</p>
+            <p><strong>Controles:</strong> Mueve el ratón horizontalmente dentro de la zona de juego para controlar la paleta.</p>
+            <button id="btn-cerrar-ayuda" class="btn btn--secundario btn--mediano">Entendido</button>
         </div>
     </dialog>
 
-    <!-- MODAL DE PAUSA -->
     <dialog id="modal-pausa" class="modal">
         <div class="modal-contenido">
-            <h2>Juego Pausado</h2>
-            <div class="botones-pausa">
-                <button id="btn-continuar" class="btn-grande">Continuar</button>
-                <button id="btn-salir" class="btn-mediano btn-peligro">Salir de la partida</button>
-            </div>
+            <h2 class="subtitulo">Juego Pausado</h2>
+            <button id="btn-continuar" class="btn btn--primario btn--mediano">Continuar</button>
+            <button id="btn-salir" class="btn btn--peligro btn--mediano">Salir al Menú</button>
         </div>
     </dialog>
 </body>

@@ -2,153 +2,152 @@
 
 export class Model {
     constructor() {
-        this.canvasWidth = 800;
-        this.canvasHeight = 600;
-        
-        // Parámetros por defecto
-        this.ajustes = {
-            tamanoPaleta: 'mediana',
-            velocidadBola: 'normal',
-            filasLadrillos: 5
-        };
-
-        this.resetEstado();
-    }
-
-    resetEstado() {
+        this.anchoCanvas = 800;
+        this.altoCanvas = 500;
         this.vidas = 3;
         this.tiempo = 0;
-        this.jugando = false;
-        this.pausa = false;
+        this.juegoTerminado = false;
+        this.victoria = false;
         
-        // Configuraciones traducidas de los ajustes
-        const anchosPaleta = { pequena: 80, mediana: 120, grande: 160 };
-        const velocidadesBola = { lenta: 4, normal: 6, rapida: 9 };
-
-        this.paleta = {
-            w: anchosPaleta[this.ajustes.tamanoPaleta],
-            h: 15,
-            x: this.canvasWidth / 2 - (anchosPaleta[this.ajustes.tamanoPaleta] / 2),
-            y: this.canvasHeight - 30,
-            velocidad: 8
-        };
-
-        this.bola = {
-            x: this.canvasWidth / 2,
-            y: this.paleta.y - 10,
-            radio: 8,
-            dx: velocidadesBola[this.ajustes.velocidadBola],
-            dy: -velocidadesBola[this.ajustes.velocidadBola],
-            velocidadBase: velocidadesBola[this.ajustes.velocidadBola]
-        };
-
+        this.bola = { x: 400, y: 300, dx: 0, dy: 0, radio: 8 };
+        this.paleta = { x: 350, y: 460, w: 100, h: 12 };
         this.ladrillos = [];
-        this.crearLadrillos();
+        this.filas = 4;
+        this.columnas = 10;
+        
+        this.config = {
+            velocidadBase: 5,
+            tamanoPaleta: 100
+        };
     }
 
-    crearLadrillos() {
-        const cols = 10;
-        const width = 65;
-        const height = 25;
-        const padding = 10;
-        const offsetTop = 50;
-        const offsetLeft = 30;
+    iniciarPartida(config) {
+        this.vidas = 3;
+        this.tiempo = 0;
+        this.juegoTerminado = false;
+        this.victoria = false;
+        
+        // Mapear configuración
+        this.filas = config.filas;
+        this.config.tamanoPaleta = config.paleta === 'pequena' ? 60 : (config.paleta === 'grande' ? 140 : 100);
+        this.config.velocidadBase = config.velocidad === 'lenta' ? 4 : (config.velocidad === 'rapida' ? 8 : 6);
+        this.paleta.w = this.config.tamanoPaleta;
 
-        for (let c = 0; c < cols; c++) {
+        this.resetBola();
+        this.generarLadrillos();
+    }
+
+    resetBola() {
+        this.bola.x = this.anchoCanvas / 2;
+        this.bola.y = this.altoCanvas - 60;
+        this.bola.dx = this.config.velocidadBase * (Math.random() > 0.5 ? 1 : -1);
+        this.bola.dy = -this.config.velocidadBase;
+        this.paleta.x = (this.anchoCanvas - this.paleta.w) / 2;
+    }
+
+    generarLadrillos() {
+        this.ladrillos = [];
+        const anchoLad = 65;
+        const altoLad = 20;
+        const padding = 10;
+        const offsetSup = 50;
+        const offsetIzq = (this.anchoCanvas - (this.columnas * (anchoLad + padding))) / 2 + padding/2;
+
+        for (let c = 0; c < this.columnas; c++) {
             this.ladrillos[c] = [];
-            for (let r = 0; r < this.ajustes.filasLadrillos; r++) {
-                this.ladrillos[c][r] = { 
-                    x: (c * (width + padding)) + offsetLeft, 
-                    y: (r * (height + padding)) + offsetTop, 
+            for (let r = 0; r < this.filas; r++) {
+                this.ladrillos[c][r] = {
+                    x: c * (anchoLad + padding) + offsetIzq,
+                    y: r * (altoLad + padding) + offsetSup,
+                    w: anchoLad,
+                    h: altoLad,
                     estado: 1, // 1 = vivo, 0 = roto
-                    fila: r
+                    colorIdx: r % 3
                 };
             }
         }
     }
 
-    actualizarParametro(clave, valor) {
-        this.ajustes[clave] = valor;
+    moverPaleta(xRelativo) {
+        if (xRelativo > 0 && xRelativo < this.anchoCanvas) {
+            this.paleta.x = xRelativo - this.paleta.w / 2;
+            // Límites
+            if (this.paleta.x < 0) this.paleta.x = 0;
+            if (this.paleta.x + this.paleta.w > this.anchoCanvas) this.paleta.x = this.anchoCanvas - this.paleta.w;
+        }
     }
 
-    actualizarFisica() {
-        if (!this.jugando || this.pausa) return;
+    incrementarTiempo() {
+        if (!this.juegoTerminado) this.tiempo++;
+    }
 
-        // Movimiento bola
+    actualizarFisicas() {
+        if (this.juegoTerminado) return;
+
         this.bola.x += this.bola.dx;
         this.bola.y += this.bola.dy;
 
-        // Colisión paredes izquierda/derecha
-        if (this.bola.x + this.bola.dx > this.canvasWidth - this.bola.radio || this.bola.x + this.bola.dx < this.bola.radio) {
+        // Choque con paredes
+        if (this.bola.x + this.bola.dx > this.anchoCanvas - this.bola.radio || this.bola.x + this.bola.dx < this.bola.radio) {
             this.bola.dx = -this.bola.dx;
         }
-
-        // Colisión techo
         if (this.bola.y + this.bola.dy < this.bola.radio) {
             this.bola.dy = -this.bola.dy;
-        } 
-        // Suelo (Pierde vida)
-        else if (this.bola.y + this.bola.dy > this.canvasHeight - this.bola.radio) {
+        }
+
+        // Choque con fondo (pierde vida)
+        if (this.bola.y + this.bola.dy > this.altoCanvas - this.bola.radio) {
             this.vidas--;
-            if (this.vidas > 0) {
-                this.resetBolaPaleta();
+            if (this.vidas <= 0) {
+                this.juegoTerminado = true;
+                this.victoria = false;
             } else {
-                this.jugando = false; // Derrota
+                this.resetBola();
             }
         }
 
-        // Colisión Paleta
-        if (this.bola.y + this.bola.radio > this.paleta.y && 
-            this.bola.y < this.paleta.y + this.paleta.h && 
+        // Choque con paleta
+        if (this.bola.y + this.bola.radio > this.paleta.y &&
             this.bola.x > this.paleta.x && 
             this.bola.x < this.paleta.x + this.paleta.w) {
             
-            // Alterar ángulo según donde golpee en la paleta
+            this.bola.dy = -this.config.velocidadBase;
+            // Modificar ángulo (dx) según zona de impacto
             let puntoImpacto = this.bola.x - (this.paleta.x + this.paleta.w / 2);
-            this.bola.dx = puntoImpacto * 0.15;
-            this.bola.dy = -this.bola.dy;
-            
-            // Normalizar velocidad para que no pierda energía
-            let magnitud = Math.sqrt(this.bola.dx * this.bola.dx + this.bola.dy * this.bola.dy);
-            this.bola.dx = (this.bola.dx / magnitud) * this.bola.velocidadBase;
-            this.bola.dy = (this.bola.dy / magnitud) * this.bola.velocidadBase;
+            this.bola.dx = (puntoImpacto / (this.paleta.w / 2)) * this.config.velocidadBase;
         }
 
-        // Colisión Ladrillos
+        // Choque con ladrillos (AABB básico)
         let quedanLadrillos = false;
-        for (let c = 0; c < this.ladrillos.length; c++) {
-            for (let r = 0; r < this.ajustes.filasLadrillos; r++) {
-                let lad = this.ladrillos[c][r];
-                if (lad.estado === 1) {
+        for (let c = 0; c < this.columnas; c++) {
+            for (let r = 0; r < this.filas; r++) {
+                let b = this.ladrillos[c][r];
+                if (b.estado === 1) {
                     quedanLadrillos = true;
-                    // AABB simplificado
-                    if (this.bola.x > lad.x && this.bola.x < lad.x + 65 && this.bola.y > lad.y && this.bola.y < lad.y + 25) {
+                    if (this.bola.x > b.x && this.bola.x < b.x + b.w &&
+                        this.bola.y > b.y && this.bola.y < b.y + b.h) {
                         this.bola.dy = -this.bola.dy;
-                        lad.estado = 0;
+                        b.estado = 0;
                     }
                 }
             }
         }
 
-        if (!quedanLadrillos) this.jugando = false; // Victoria
-    }
-
-    resetBolaPaleta() {
-        this.paleta.x = this.canvasWidth / 2 - (this.paleta.w / 2);
-        this.bola.x = this.canvasWidth / 2;
-        this.bola.y = this.paleta.y - 10;
-        this.bola.dx = this.bola.velocidadBase;
-        this.bola.dy = -this.bola.velocidadBase;
-    }
-
-    moverPaleta(x) {
-        let relativaX = x - (this.paleta.w / 2);
-        if (relativaX > 0 && relativaX < this.canvasWidth - this.paleta.w) {
-            this.paleta.x = relativaX;
+        if (!quedanLadrillos) {
+            this.juegoTerminado = true;
+            this.victoria = true;
         }
     }
 
-    incrementarTiempo() {
-        if (this.jugando && !this.pausa) this.tiempo++;
+    getEstado() {
+        return {
+            bola: this.bola,
+            paleta: this.paleta,
+            ladrillos: this.ladrillos,
+            vidas: this.vidas,
+            tiempo: this.tiempo,
+            juegoTerminado: this.juegoTerminado,
+            victoria: this.victoria
+        };
     }
 }

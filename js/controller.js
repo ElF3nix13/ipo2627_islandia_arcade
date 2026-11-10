@@ -4,77 +4,87 @@ export class Controller {
     constructor(model, view) {
         this.model = model;
         this.view = view;
-        this.animacionFrame = null;
+        
+        this.animacionID = null;
         this.intervaloTiempo = null;
+        this.enPausa = false;
 
         this.inicializarControlador();
     }
 
     inicializarControlador() {
-        this.view.bindEventosNavegacion(
-            () => this.iniciarPartida(),
-            null,
-            () => this.volverAInicio()
-        );
-
-        this.view.bindEventosAjustes((clave, valor) => this.model.actualizarParametro(clave, valor));
-        
+        this.view.bindEventosInicio(() => this.iniciarJuego());
         this.view.bindEventosJuego(
+            (x) => this.manejarMovimiento(x),
             () => this.pausarJuego(),
-            (x) => { if(this.model.jugando && !this.model.pausa) this.model.moverPaleta(x); }
-        );
-
-        this.view.bindModales(
+            () => this.mostrarAyuda(),
             () => this.reanudarJuego(),
-            () => this.volverAInicio()
+            () => this.salirAlMenu()
         );
     }
 
-    iniciarPartida() {
-        this.model.resetEstado();
-        this.model.jugando = true;
-        this.view.mostrarPantalla('vista-juego');
+    iniciarJuego() {
+        const config = this.view.getConfiguracion();
+        this.model.iniciarPartida(config);
+        this.view.mostrarPantalla('juego');
+        this.enPausa = false;
         
-        // Iniciar reloj
-        if(this.intervaloTiempo) clearInterval(this.intervaloTiempo);
-        this.intervaloTiempo = setInterval(() => {
-            this.model.incrementarTiempo();
-        }, 1000);
+        this.iniciarReloj();
+        this.loop();
+    }
 
-        this.bucleJuego();
+    manejarMovimiento(x) {
+        if (!this.enPausa) {
+            this.model.moverPaleta(x);
+        }
+    }
+
+    iniciarReloj() {
+        if (this.intervaloTiempo) clearInterval(this.intervaloTiempo);
+        this.intervaloTiempo = setInterval(() => {
+            if (!this.enPausa) this.model.incrementarTiempo();
+        }, 1000);
     }
 
     pausarJuego() {
-        this.model.pausa = true;
-        this.view.abrirModalPausa();
+        this.enPausa = true;
+        cancelAnimationFrame(this.animacionID);
+        this.view.abrirModal('pausa');
+    }
+
+    mostrarAyuda() {
+        this.enPausa = true;
+        cancelAnimationFrame(this.animacionID);
+        this.view.abrirModal('ayuda');
     }
 
     reanudarJuego() {
-        this.model.pausa = false;
-        this.bucleJuego();
+        this.enPausa = false;
+        this.view.cerrarModal('pausa');
+        this.view.cerrarModal('ayuda');
+        this.loop();
     }
 
-    volverAInicio() {
-        this.model.jugando = false;
-        if(this.animacionFrame) cancelAnimationFrame(this.animacionFrame);
-        if(this.intervaloTiempo) clearInterval(this.intervaloTiempo);
-        this.view.mostrarPantalla('vista-inicio');
+    salirAlMenu() {
+        this.enPausa = true;
+        clearInterval(this.intervaloTiempo);
+        cancelAnimationFrame(this.animacionID);
+        this.view.cerrarModal('pausa');
+        this.view.mostrarPantalla('inicio');
     }
 
-    bucleJuego() {
-        if (!this.model.jugando || this.model.pausa) return;
+    loop() {
+        if (this.enPausa) return;
 
-        this.model.actualizarFisica();
-        this.view.dibujarJuego(this.model);
+        this.model.actualizarFisicas();
+        const estado = this.model.getEstado();
+        this.view.renderizarJuego(estado);
 
-        // Comprobar fin tras actualizar físicas
-        if (!this.model.jugando) {
+        if (estado.juegoTerminado) {
             clearInterval(this.intervaloTiempo);
-            const victoria = this.model.vidas > 0;
-            this.view.mostrarFin(victoria, this.model.tiempo);
-            return;
+            this.view.mostrarFin(estado.victoria, estado.tiempo);
+        } else {
+            this.animacionID = requestAnimationFrame(() => this.loop());
         }
-
-        this.animacionFrame = requestAnimationFrame(() => this.bucleJuego());
     }
 }
