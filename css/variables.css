@@ -1,0 +1,30 @@
+:root {
+    /* Diseño cromático */
+    --color-fondo: #1a1a2e;
+    --color-superficie: #16213e;
+    --color-texto: #e94560;
+    --color-texto-claro: #ffffff;
+    
+    --color-primario: #0f3460;
+    --color-primario-hover: #1a4b8c;
+    --color-secundario: #e94560;
+    
+    --color-bola: #ffffff;
+    --color-paleta: #4ecca3;
+    
+    /* Colores ladrillos (Triádicos/Análogos) */
+    --ladrillo-1: #e94560;
+    --ladrillo-2: #f9a03f;
+    --ladrillo-3: #f7d060;
+    --ladrillo-4: #4ecca3;
+
+    /* Diseño tipográfico */
+    --fuente-principal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --fuente-titulo: 'Impact', 'Segoe UI Black', sans-serif;
+
+    /* Diseño espacial */
+    --espacio-sm: 0.5rem;
+    --espacio-md: 1rem;
+    --espacio-lg: 2rem;
+    --radio-borde: 8px;
+}

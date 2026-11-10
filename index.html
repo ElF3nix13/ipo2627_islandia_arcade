@@ -11,6 +11,94 @@
 </head>
 
 <body>
+    <!-- Botón global de Ayuda -->
+    <button id="btn-ayuda" class="btn-flotante" aria-label="Ayuda">?</button>
+
+    <!-- PANTALLA INICIAL -->
+    <section id="vista-inicio" class="pantalla activa">
+        <div class="contenedor-centro">
+            <h1 class="titulo-juego">ARKANOID</h1>
+            
+            <div id="menu-principal" class="menu-bloque">
+                <button id="btn-jugar-inicio" class="btn-grande">JUGAR</button>
+                <button id="btn-mostrar-ajustes" class="btn-mediano">Ajustes</button>
+            </div>
+
+            <div id="menu-ajustes" class="menu-bloque oculto">
+                <h2>Configuración</h2>
+                
+                <div class="ajuste-grupo">
+                    <label>Tamaño de la Paleta:</label>
+                    <div class="segmented-control" id="control-paleta">
+                        <button data-val="pequena" class="btn-seg">Pequeña</button>
+                        <button data-val="mediana" class="btn-seg activo">Mediana</button>
+                        <button data-val="grande" class="btn-seg">Grande</button>
+                    </div>
+                </div>
+
+                <div class="ajuste-grupo">
+                    <label>Velocidad de la Bola:</label>
+                    <div class="segmented-control" id="control-velocidad">
+                        <button data-val="lenta" class="btn-seg">Lenta</button>
+                        <button data-val="normal" class="btn-seg activo">Normal</button>
+                        <button data-val="rapida" class="btn-seg">Rápida</button>
+                    </div>
+                </div>
+
+                <div class="ajuste-grupo">
+                    <label>Filas de Ladrillos: <span id="valor-filas">5</span></label>
+                    <input type="range" id="control-filas" min="3" max="8" value="5">
+                </div>
+
+                <button id="btn-guardar-ajustes" class="btn-mediano">Guardar y Volver</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PANTALLA DE JUEGO -->
+    <section id="vista-juego" class="pantalla oculto">
+        <div class="hud-juego">
+            <div class="hud-stats">
+                <div class="vidas" id="indicador-vidas">❤️❤️❤️</div>
+                <div class="tiempo">Tiempo: <span id="indicador-tiempo">0</span>s</div>
+            </div>
+            <button id="btn-pausa" class="btn-accion">⏸ Pausa</button>
+        </div>
+        
+        <div class="canvas-contenedor">
+            <canvas id="canvas-juego" width="800" height="600"></canvas>
+        </div>
+    </section>
+
+    <!-- PANTALLA DE FIN -->
+    <section id="vista-fin" class="pantalla oculto">
+        <div class="contenedor-centro">
+            <h1 id="titulo-fin">¡Partida Terminada!</h1>
+            <p class="resultado-tiempo">Tiempo final: <span id="tiempo-final">0</span> segundos</p>
+            <button id="btn-nueva-partida" class="btn-grande">Nueva Partida</button>
+        </div>
+    </section>
+
+    <!-- MODAL DE AYUDA -->
+    <dialog id="modal-ayuda" class="modal">
+        <div class="modal-contenido">
+            <h2>Reglas del Juego</h2>
+            <p><strong>Objetivo:</strong> Destruye todos los ladrillos con la bola antes de perder tus 3 vidas.</p>
+            <p><strong>Controles:</strong> Mueve el ratón de izquierda a derecha dentro de la zona de juego para desplazar la paleta y rebotar la bola.</p>
+            <button id="btn-cerrar-ayuda" class="btn-mediano">Entendido</button>
+        </div>
+    </dialog>
+
+    <!-- MODAL DE PAUSA -->
+    <dialog id="modal-pausa" class="modal">
+        <div class="modal-contenido">
+            <h2>Juego Pausado</h2>
+            <div class="botones-pausa">
+                <button id="btn-continuar" class="btn-grande">Continuar</button>
+                <button id="btn-salir" class="btn-mediano btn-peligro">Salir de la partida</button>
+            </div>
+        </div>
+    </dialog>
 </body>
 
 </html>
