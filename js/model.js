@@ -87,16 +87,23 @@ export class Model {
         this.bola.x += this.bola.dx;
         this.bola.y += this.bola.dy;
 
-        // Choque con paredes
-        if (this.bola.x + this.bola.dx > this.anchoCanvas - this.bola.radio || this.bola.x + this.bola.dx < this.bola.radio) {
-            this.bola.dx = -this.bola.dx;
+        // Choque con paredes laterales
+        if (this.bola.x - this.bola.radio < 0) {
+            this.bola.x = this.bola.radio;
+            this.bola.dx = Math.abs(this.bola.dx);
+        } else if (this.bola.x + this.bola.radio > this.anchoCanvas) {
+            this.bola.x = this.anchoCanvas - this.bola.radio;
+            this.bola.dx = -Math.abs(this.bola.dx);
         }
-        if (this.bola.y + this.bola.dy < this.bola.radio) {
-            this.bola.dy = -this.bola.dy;
+
+        // Choque con techo
+        if (this.bola.y - this.bola.radio < 0) {
+            this.bola.y = this.bola.radio;
+            this.bola.dy = Math.abs(this.bola.dy);
         }
 
         // Choque con fondo (pierde vida)
-        if (this.bola.y + this.bola.dy > this.altoCanvas - this.bola.radio) {
+        if (this.bola.y - this.bola.radio > this.altoCanvas) {
             this.vidas--;
             if (this.vidas <= 0) {
                 this.juegoTerminado = true;
@@ -104,30 +111,64 @@ export class Model {
             } else {
                 this.resetBola();
             }
+            return;
         }
 
-        // Choque con paleta
-        if (this.bola.y + this.bola.radio > this.paleta.y &&
-            this.bola.x > this.paleta.x && 
-            this.bola.x < this.paleta.x + this.paleta.w) {
+        // Choque con paleta (solo cuando la bola cae hacia abajo)
+        if (this.bola.dy > 0 &&
+            this.bola.y + this.bola.radio >= this.paleta.y &&
+            this.bola.y - this.bola.radio <= this.paleta.y + this.paleta.h &&
+            this.bola.x + this.bola.radio >= this.paleta.x && 
+            this.bola.x - this.bola.radio <= this.paleta.x + this.paleta.w) {
             
+            this.bola.y = this.paleta.y - this.bola.radio;
             this.bola.dy = -this.config.velocidadBase;
             // Modificar ángulo (dx) según zona de impacto
             let puntoImpacto = this.bola.x - (this.paleta.x + this.paleta.w / 2);
             this.bola.dx = (puntoImpacto / (this.paleta.w / 2)) * this.config.velocidadBase;
         }
 
-        // Choque con ladrillos (AABB básico)
+        // Choque con ladrillos (AABB con detección de lados y reposicionamiento)
         let quedanLadrillos = false;
+        let colisionDetectada = false;
+
         for (let c = 0; c < this.columnas; c++) {
             for (let r = 0; r < this.filas; r++) {
                 let b = this.ladrillos[c][r];
                 if (b.estado === 1) {
                     quedanLadrillos = true;
-                    if (this.bola.x > b.x && this.bola.x < b.x + b.w &&
-                        this.bola.y > b.y && this.bola.y < b.y + b.h) {
-                        this.bola.dy = -this.bola.dy;
+
+                    if (!colisionDetectada &&
+                        this.bola.x + this.bola.radio > b.x &&
+                        this.bola.x - this.bola.radio < b.x + b.w &&
+                        this.bola.y + this.bola.radio > b.y &&
+                        this.bola.y - this.bola.radio < b.y + b.h) {
+
+                        // Calcular solapamiento en cada uno de los 4 lados del ladrillo
+                        const overlapLeft = (this.bola.x + this.bola.radio) - b.x;
+                        const overlapRight = (b.x + b.w) - (this.bola.x - this.bola.radio);
+                        const overlapTop = (this.bola.y + this.bola.radio) - b.y;
+                        const overlapBottom = (b.y + b.h) - (this.bola.y - this.bola.radio);
+
+                        // La penetración mínima indica por qué cara impactó la bola
+                        const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
+
+                        if (minOverlap === overlapLeft) {
+                            this.bola.x = b.x - this.bola.radio;
+                            this.bola.dx = -Math.abs(this.bola.dx);
+                        } else if (minOverlap === overlapRight) {
+                            this.bola.x = b.x + b.w + this.bola.radio;
+                            this.bola.dx = Math.abs(this.bola.dx);
+                        } else if (minOverlap === overlapTop) {
+                            this.bola.y = b.y - this.bola.radio;
+                            this.bola.dy = -Math.abs(this.bola.dy);
+                        } else if (minOverlap === overlapBottom) {
+                            this.bola.y = b.y + b.h + this.bola.radio;
+                            this.bola.dy = Math.abs(this.bola.dy);
+                        }
+
                         b.estado = 0;
+                        colisionDetectada = true;
                     }
                 }
             }
