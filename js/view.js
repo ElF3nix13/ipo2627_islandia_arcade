@@ -140,7 +140,7 @@ export class View {
     }
 
     mostrarFin(victoria, tiempo) {
-        this.ui.tituloFin.textContent = victoria ? "¡Victoria! 🎉" : "Fin de la Partida";
+        this.ui.tituloFin.textContent = victoria ? "¡Victoria!" : "Fin de la Partida";
         this.ui.tituloFin.style.color = victoria ? "var(--color-primario)" : "var(--color-peligro)";
         this.ui.tiempoFinal.textContent = tiempo;
         this.mostrarPantalla('fin');

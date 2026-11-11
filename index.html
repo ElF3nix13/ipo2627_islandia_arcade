@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arcade</title>
+    <title>Breakout</title>
 
     <link rel="stylesheet" href="css/style.css">
     <script src="js/app.js" type="module"></script>
@@ -18,7 +18,7 @@
         <!-- PANTALLA INICIAL (Menú y Ajustes) -->
         <section id="pantalla-inicio" class="pantalla pantalla--activa">
             <div class="caja-menu">
-                <h1 class="titulo-juego">ARKANOID</h1>
+                <h1 class="titulo-juego">BREAKOUT</h1>
                 
                 <!-- Menú Principal -->
                 <div id="menu-principal" class="menu-bloque">
@@ -28,7 +28,6 @@
 
                 <!-- Menú de Ajustes -->
                 <div id="menu-ajustes" class="menu-bloque oculto">
-                    <h2 class="subtitulo">Configuración</h2>
                     
                     <div class="ajuste-grupo">
                         <label>Tamaño de la Paleta</label>
@@ -65,7 +64,8 @@
                     <span id="indicador-vidas">❤️❤️❤️</span>
                     <span>⏱️ <span id="indicador-tiempo">0</span>s</span>
                 </div>
-                <button id="btn-pausa" class="btn btn--secundario">Pausar</button>
+                <!-- Icono de pausa en lugar de texto -->
+                <button id="btn-pausa" class="btn btn--secundario btn-icono" aria-label="Pausar Partida">⏸</button>
             </div>
             <div class="canvas-contenedor">
                 <canvas id="canvas-juego" width="800" height="500"></canvas>
@@ -75,7 +75,7 @@
         <!-- PANTALLA DE FIN -->
         <section id="pantalla-fin" class="pantalla oculto">
             <div class="caja-menu">
-                <h2 id="titulo-fin" class="titulo-juego">Fin</h2>
+                <h2 id="titulo-fin">Fin</h2>
                 <p class="resultado-tiempo">Tiempo total: <strong id="tiempo-final">0</strong>s</p>
                 <button id="btn-nueva-partida" class="btn btn--primario btn--grande">Nueva Partida</button>
             </div>
@@ -96,7 +96,8 @@
         <div class="modal-contenido">
             <h2 class="subtitulo">Juego Pausado</h2>
             <button id="btn-continuar" class="btn btn--primario btn--mediano">Continuar</button>
-            <button id="btn-salir" class="btn btn--peligro btn--mediano">Salir al Menú</button>
+            <!-- Botón Salir ahora utiliza la clase btn--gris -->
+            <button id="btn-salir" class="btn btn--secundario btn--mediano">Salir al Menú</button>
         </div>
     </dialog>
 </body>

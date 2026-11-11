@@ -5,12 +5,12 @@
 
     --tono-1: var(--tono-base);
     --tono-2: calc(var(--tono-base) + var(--paso-fichas));
-    --tono-3: calc(var(--tono-base) + var(--paso-fichas) * 2);
+    --tono-3: calc(var(--tono-base) + var(--paso-fichas) * 2);    
 
     --sat-fichas: 90%;
     --lum-fichas: 55%;
 
-    /* Colores Canvas accesibles vía JS */
+    /* Colores Canvas */
     --color-ladrillo-1: hsl(var(--tono-1), var(--sat-fichas), var(--lum-fichas));
     --color-ladrillo-2: hsl(var(--tono-2), var(--sat-fichas), var(--lum-fichas));
     --color-ladrillo-3: hsl(var(--tono-3), var(--sat-fichas), var(--lum-fichas));
@@ -26,7 +26,8 @@
     --color-primario: hsl(var(--tono-1), 80%, 50%);
     --color-primario-hover: hsl(var(--tono-1), 80%, 40%);
     --color-secundario: hsl(var(--tono-base), 30%, 30%);
-    --color-peligro: hsl(350, 80%, 50%);
+    --color-secundario-hover: hsl(var(--tono-base), 30%, 25%);
+    --color-complementario: hsl(calc(var(--tono-base) + 135), 90%, 60%);
 
     /* DISEÑO TIPOGRÁFICO */
     --fuente-titulo: 'Impact', 'Arial Black', sans-serif;
@@ -35,13 +36,15 @@
     --txt-sm: 0.875rem;
     --txt-md: 1rem;
     --txt-lg: 1.25rem;
-    --txt-xl: clamp(2.5rem, 5vw, 4rem);
+    --txt-xl: 2.5rem;
+    --txt-2xl: clamp(2.5rem, 5vw, 4rem);
 
-    /* DISEÑO ESPACIAL (Escala Modular) */
+    /* DISEÑO ESPACIAL */
     --espacio-xs: 0.5rem;
     --espacio-sm: 1rem;
     --espacio-md: 1.5rem;
     --espacio-lg: 2rem;
+    --espacio-xl: 3rem; /* Espacio extra para la pantalla final */
     
     --radio-sm: 4px;
     --radio-md: 8px;
