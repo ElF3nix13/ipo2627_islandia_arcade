@@ -46,6 +46,6 @@
     --espacio-lg: 2rem;
     --espacio-xl: 3rem; /* Espacio extra para la pantalla final */
     
-    --radio-sm: 4px;
-    --radio-md: 8px;
+    --radio-sm: 8px;
+    --radio-md: 16px;
 }

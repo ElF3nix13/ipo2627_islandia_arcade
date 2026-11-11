@@ -47,6 +47,18 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
+.menu-secundario {
+    display: flex;
+    gap: var(--espacio-sm);
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.menu-secundario .btn {
+    flex: 1;
+}
+
 .menu-bloque {
     display: flex;
     flex-direction: column;
@@ -134,18 +146,6 @@ body {
 
 .btn--secundario:hover {
     background-color: var(--color-secundario-hover);
-}
-
-.btn--flotante {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-weight: bold;
-    z-index: 100;
-    background-color: var(--color-secundario);
 }
 
 /* Segmented Control */

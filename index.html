@@ -11,9 +11,6 @@
 </head>
 
 <body>
-    <!-- Botón global de Ayuda -->
-    <button id="btn-abrir-ayuda" class="btn btn--flotante" aria-label="Ayuda">?</button>
-
     <main class="contenedor-principal">
         <!-- PANTALLA INICIAL (Menú y Ajustes) -->
         <section id="pantalla-inicio" class="pantalla pantalla--activa">
@@ -23,7 +20,10 @@
                 <!-- Menú Principal -->
                 <div id="menu-principal" class="menu-bloque">
                     <button id="btn-jugar" class="btn btn--primario btn--grande">Jugar</button>
-                    <button id="btn-ajustes" class="btn btn--secundario btn--mediano">Ajustes</button>
+                    <div class="menu-secundario"> 
+                        <button id="btn-ajustes" class="btn btn--secundario btn--mediano">Ajustes</button>
+                        <button id="btn-abrir-ayuda" class="btn btn--secundario btn--mediano" aria-label="Ayuda">Cómo Jugar</button>
+                    </div>
                 </div>
 
                 <!-- Menú de Ajustes -->
