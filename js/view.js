@@ -73,7 +73,8 @@ export class View {
 
     bindEventosInicio(handlerJugar) {
         document.getElementById('btn-jugar').addEventListener('click', handlerJugar);
-        document.getElementById('btn-nueva-partida').addEventListener('click', () => this.mostrarPantalla('inicio'));
+        document.getElementById('btn-nueva-partida').addEventListener('click', handlerJugar);
+        document.getElementById('btn-volver-menu').addEventListener('click', () => this.mostrarPantalla('inicio'));
         document.getElementById('btn-ajustes').addEventListener('click', () => this.toggleAjustes(true));
         document.getElementById('btn-guardar-ajustes').addEventListener('click', () => this.toggleAjustes(false));
         
