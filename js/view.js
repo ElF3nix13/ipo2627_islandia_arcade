@@ -2,7 +2,6 @@
 
 export class View {
     constructor() {
-        // Elementos DOM con data-attributes
         this.pantallas = {
             inicio: document.querySelector('[data-pantalla="inicio"]'),
             juego: document.querySelector('[data-pantalla="juego"]'),
@@ -14,19 +13,18 @@ export class View {
             ajustes: document.querySelector('[data-menu="ajustes"]')
         };
         
-        // Canvas y HUD
         this.canvas = document.querySelector('[data-canvas="juego"]');
         this.ctx = this.canvas.getContext('2d');
         this.imgClick = new Image();
         this.imgClick.src = 'img/click.svg';
+        
         this.ui = {
-            corazones: document.querySelectorAll('[data-hud="vidas"] .icono-corazon'),
+            corazones: document.querySelectorAll('[data-hud="vidas"] .icono--corazon'),
             tiempo: document.querySelector('[data-bind="tiempo"]'),
             tiempoFinal: document.querySelector('[data-bind="tiempo-final"]'),
             tituloFin: document.querySelector('[data-bind="titulo-fin"]')
         };
         
-        // Modales
         this.modales = {
             ayuda: document.querySelector('[data-modal="ayuda"]'),
             pausa: document.querySelector('[data-modal="pausa"]')
@@ -50,8 +48,8 @@ export class View {
 
     getConfiguracion() {
         return {
-            paleta: document.querySelector('[data-setting-group="paleta"] .activo').dataset.val,
-            velocidad: document.querySelector('[data-setting-group="velocidad"] .activo').dataset.val,
+            paleta: document.querySelector('[data-setting-group="paleta"] .control-segmentado__btn--activo').dataset.val,
+            velocidad: document.querySelector('[data-setting-group="velocidad"] .control-segmentado__btn--activo').dataset.val,
             filas: parseInt(document.querySelector('[data-setting="filas"]').value, 10)
         };
     }
@@ -80,17 +78,15 @@ export class View {
         document.querySelector('[data-action="abrir-ajustes"]').addEventListener('click', () => this.toggleAjustes(true));
         document.querySelector('[data-action="guardar-ajustes"]').addEventListener('click', () => this.toggleAjustes(false));
         
-        // Segmented controls UI logic
         document.querySelectorAll('.control-segmentado').forEach(grupo => {
             grupo.addEventListener('click', e => {
-                if(e.target.classList.contains('btn-seg')) {
-                    grupo.querySelectorAll('.btn-seg').forEach(b => b.classList.remove('activo'));
-                    e.target.classList.add('activo');
+                if(e.target.classList.contains('control-segmentado__btn')) {
+                    grupo.querySelectorAll('.control-segmentado__btn').forEach(b => b.classList.remove('control-segmentado__btn--activo'));
+                    e.target.classList.add('control-segmentado__btn--activo');
                 }
             });
         });
 
-        // Slider UI logic
         const slider = document.querySelector('[data-setting="filas"]');
         const valorSpan = document.querySelector('[data-bind="valor-filas"]');
         slider.addEventListener('input', e => valorSpan.textContent = e.target.value);
@@ -113,7 +109,6 @@ export class View {
     }
 
     renderizarJuego(estado) {
-        // (El renderizado del canvas se mantiene intacto porque no utilizaba IDs)
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.fillStyle = this.colores.paleta;
@@ -150,13 +145,12 @@ export class View {
             this.ctx.fillText(texto, x + tam + gap, y);
         }
 
-        this.ui.corazones.forEach((c, i) => c.classList.toggle('icono-corazon--perdido', i >= estado.vidas));
+        this.ui.corazones.forEach((c, i) => c.classList.toggle('icono--corazon-perdido', i >= estado.vidas));
         this.ui.tiempo.textContent = estado.tiempo;
     }
 
     mostrarFin(victoria, tiempo) {
         this.ui.tituloFin.textContent = victoria ? "¡Victoria!" : "Fin de la Partida";
-        this.ui.tituloFin.style.color = victoria ? "var(--color-primario)" : "var(--color-peligro)";
         this.ui.tiempoFinal.textContent = tiempo;
         this.mostrarPantalla('fin');
     }

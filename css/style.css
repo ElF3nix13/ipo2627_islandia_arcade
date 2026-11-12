@@ -42,12 +42,18 @@ body {
     background-color: var(--color-superficie);
     padding: var(--espacio-lg);
     border-radius: var(--radio-md);
-    width: clamp(300px, 90vw, 450px);
+    width: var(--ancho-menu);
     text-align: center;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.menu-secundario {
+.menu-bloque {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-sm);
+}
+
+.menu-bloque__secundario {
     display: flex;
     gap: var(--espacio-sm);
     justify-content: center;
@@ -55,14 +61,8 @@ body {
     width: 100%;
 }
 
-.menu-secundario .btn {
+.menu-bloque__secundario .btn {
     flex: 1;
-}
-
-.menu-bloque {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espacio-sm);
 }
 
 .ajuste-grupo {
@@ -79,17 +79,14 @@ body {
     color: var(--color-texto-mutado);
 }
 
-/* Tipografía (Modificada según las nuevas reglas) */
 .titulo-juego {
     font-family: var(--fuente-titulo);
     font-size: var(--txt-2xl);
     color: var(--color-complementario);
-    /* Tono complementario al azul base */
     letter-spacing: 2px;
     margin-bottom: var(--espacio-md);
 }
 
-/* Los subtítulos y títulos de menús ahora usan la fuente normal (heredada del body) */
 .subtitulo {
     font-size: var(--txt-lg);
     font-weight: bold;
@@ -123,13 +120,13 @@ body {
 
 .btn--grande {
     font-size: var(--txt-lg);
-    padding: 1rem;
+    padding: var(--espacio-sm);
     font-weight: bold;
 }
 
 .btn--mediano {
     font-size: var(--txt-md);
-    padding: 0.75rem 1.5rem;
+    padding: var(--espacio-xs);
 }
 
 .btn--primario {
@@ -148,6 +145,22 @@ body {
     background-color: var(--color-secundario-hover);
 }
 
+.btn--menu {
+    align-self: center;
+    min-width: 60%;
+}
+
+.btn--icono {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+}
+
+.btn--icono .icono {
+    width: var(--txt-lg);
+    height: var(--txt-lg);
+}
+
 /* Segmented Control */
 .control-segmentado {
     display: flex;
@@ -157,9 +170,9 @@ body {
     border-radius: var(--radio-sm);
 }
 
-.btn-seg {
+.control-segmentado__btn {
     flex: 1;
-    padding: 0.5rem;
+    padding: var(--espacio-xs);
     border: none;
     background: transparent;
     color: var(--color-texto-mutado);
@@ -167,7 +180,7 @@ body {
     border-radius: var(--radio-sm);
 }
 
-.btn-seg.activo {
+.control-segmentado__btn--activo {
     background: var(--color-primario);
     color: #fff;
     font-weight: bold;
@@ -179,16 +192,16 @@ input[type="range"] {
 }
 
 /* Canvas y HUD */
-.hud-juego {
+.hud {
     display: flex;
     justify-content: space-between;
-    width: 800px;
-    max-width: 95vw;
+    width: var(--ancho-juego);
+    max-width: var(--ancho-max-juego);
     margin-bottom: var(--espacio-sm);
     align-items: center;
 }
 
-.hud-stats {
+.hud__stats {
     font-size: var(--txt-lg);
     font-weight: bold;
     display: flex;
@@ -196,47 +209,36 @@ input[type="range"] {
     gap: var(--espacio-md);
 }
 
-.icono {
-    width: 1.25rem;
-    height: 1.25rem;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.hud-vidas, .hud-tiempo {
+.hud__vidas, .hud__tiempo {
     display: inline-flex;
     align-items: center;
     gap: var(--espacio-xs);
 }
 
-.icono-corazon {
+.icono {
+    width: var(--espacio-md);
+    height: var(--espacio-md);
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.icono--corazon {
     fill: var(--color-complementario);
     transition: 0.2s ease;
 }
 
-.icono-corazon--perdido {
+.icono--corazon-perdido {
     opacity: 0.2;
     transform: scale(0.8);
     filter: grayscale(1);
-}
-
-.btn-icono {
-    width: 44px;
-    height: 44px;
-    padding: 0;
-}
-
-.btn-icono .icono {
-    width: 1.2rem;
-    height: 1.2rem;
 }
 
 .canvas-contenedor {
     border: 4px solid var(--color-superficie);
     border-radius: var(--radio-md);
     overflow: hidden;
-    width: 800px;
-    max-width: 95vw;
+    width: var(--ancho-juego);
+    max-width: var(--ancho-max-juego);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 }
 
@@ -261,20 +263,20 @@ canvas {
     background: rgba(0, 0, 0, 0.85);
 }
 
-.modal-contenido {
+.modal__contenido {
     background: var(--color-superficie);
     padding: var(--espacio-lg);
     color: var(--color-texto);
     display: flex;
     flex-direction: column;
     gap: var(--espacio-sm);
-    width: clamp(280px, 80vw, 400px);
+    width: var(--ancho-modal);
     border-radius: var(--radio-md);
     text-align: center;
 }
 
-.modal-ayuda-contenido {
-    width: clamp(300px, 90vw, 420px);
+.modal__contenido--ayuda {
+    width: var(--ancho-modal-lg);
 }
 
 .guia-pasos {
@@ -285,7 +287,7 @@ canvas {
     text-align: left;
 }
 
-.guia-item {
+.guia-pasos__item {
     display: flex;
     align-items: center;
     gap: var(--espacio-sm);
@@ -294,7 +296,7 @@ canvas {
     border-radius: var(--radio-sm);
 }
 
-.guia-icono-box {
+.guia-pasos__icono-box {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -305,13 +307,13 @@ canvas {
     flex-shrink: 0;
 }
 
-.guia-item strong {
+.guia-pasos__item strong {
     display: block;
     font-size: var(--txt-sm);
     color: var(--color-texto);
 }
 
-.guia-item p {
+.guia-pasos__item p {
     font-size: var(--txt-sm);
     color: var(--color-texto-mutado);
     margin: 0;

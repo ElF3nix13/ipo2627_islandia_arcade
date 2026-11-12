@@ -39,13 +39,20 @@
     --txt-xl: 2.5rem;
     --txt-2xl: clamp(2.5rem, 5vw, 4rem);
 
-    /* DISEÑO ESPACIAL */
+    /* DISEÑO ESPACIAL Y LAYOUT */
     --espacio-xs: 0.5rem;
     --espacio-sm: 1rem;
-    --espacio-md: 1.5rem;
+    --espacio-md: 1.25rem;
     --espacio-lg: 2rem;
     --espacio-xl: 3rem;
     
     --radio-sm: 8px;
     --radio-md: 16px;
+
+    /* Tamaños estructurales generales */
+    --ancho-juego: 800px;
+    --ancho-max-juego: 95vw;
+    --ancho-menu: clamp(300px, 90vw, 450px);
+    --ancho-modal: clamp(280px, 80vw, 400px);
+    --ancho-modal-lg: clamp(300px, 90vw, 420px);
 }
