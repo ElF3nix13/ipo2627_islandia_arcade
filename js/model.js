@@ -206,7 +206,8 @@ export class Model {
             vidas: this.vidas,
             tiempo: this.tiempo,
             juegoTerminado: this.juegoTerminado,
-            victoria: this.victoria
+            victoria: this.victoria,
+            bolaEsperando: this.bolaEsperando
         };
     }
 }

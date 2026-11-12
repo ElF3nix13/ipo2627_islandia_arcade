@@ -17,6 +17,8 @@ export class View {
         // Canvas y HUD
         this.canvas = document.getElementById('canvas-juego');
         this.ctx = this.canvas.getContext('2d');
+        this.imgClick = new Image();
+        this.imgClick.src = 'img/click.svg';
         this.ui = {
             corazones: document.querySelectorAll('#indicador-vidas .icono-corazon'),
             tiempo: document.getElementById('indicador-tiempo'),
@@ -135,6 +137,23 @@ export class View {
                 }
             });
         });
+
+        // Mensaje de espera con icono de click
+        if (estado.bolaEsperando) {
+            this.ctx.font = 'bold 18px sans-serif';
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.textBaseline = 'middle';
+            const texto = 'Haz clic para lanzar';
+            const anchoTexto = this.ctx.measureText(texto).width;
+            const tam = 36;
+            const gap = 12;
+            const x = (this.canvas.width - (anchoTexto + tam + gap)) / 2;
+            const y = this.canvas.height - 100;
+
+            this.ctx.drawImage(this.imgClick, x, y - tam / 2, tam, tam);
+            this.ctx.textAlign = 'left';
+            this.ctx.fillText(texto, x + tam + gap, y);
+        }
 
         // HUD
         this.ui.corazones.forEach((c, i) => c.classList.toggle('icono-corazon--perdido', i >= estado.vidas));
