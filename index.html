@@ -98,11 +98,38 @@
 
     <!-- MODALES NATIVOS -->
     <dialog id="modal-ayuda" class="modal">
-        <div class="modal-contenido">
+        <div class="modal-contenido modal-ayuda-contenido">
             <h2 class="subtitulo">Cómo jugar</h2>
-            <p>Destruye todos los ladrillos para ganar. Evita que la bola caiga por debajo de la pantalla o perderás una vida.</p>
-            <p><strong>Controles:</strong> Mueve el ratón horizontalmente dentro de la zona de juego para controlar la paleta. Haz click en el área de juego para lanzar la bola después de perder una vida.</p>
-            <button id="btn-cerrar-ayuda" class="btn btn--secundario btn--mediano">Entendido</button>
+            <div class="guia-pasos">
+                <div class="guia-item">
+                    <span class="guia-icono-box">
+                        <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="8 8 4 12 8 16"/><polyline points="16 8 20 12 16 16"/></svg>
+                    </span>
+                    <div>
+                        <strong>Mover paleta</strong>
+                        <p>Desplaza el ratón por la pantalla</p>
+                    </div>
+                </div>
+                <div class="guia-item">
+                    <span class="guia-icono-box">
+                        <img src="img/click.svg" class="icono" alt="" aria-hidden="true">
+                    </span>
+                    <div>
+                        <strong>Lanzar bola</strong>
+                        <p>Haz clic para iniciar o tras perder vida</p>
+                    </div>
+                </div>
+                <div class="guia-item">
+                    <span class="guia-icono-box">
+                        <img src="img/corazon.svg" class="icono icono-corazon" alt="" aria-hidden="true">
+                    </span>
+                    <div>
+                        <strong>Objetivo</strong>
+                        <p>Destruye los ladrillos sin perder las 3 vidas</p>
+                    </div>
+                </div>
+            </div>
+            <button id="btn-cerrar-ayuda" class="btn btn--primario btn--mediano">¡Entendido!</button>
         </div>
     </dialog>
 

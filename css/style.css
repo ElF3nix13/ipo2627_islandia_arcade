@@ -272,3 +272,47 @@ canvas {
     border-radius: var(--radio-md);
     text-align: center;
 }
+
+.modal-ayuda-contenido {
+    width: clamp(300px, 90vw, 420px);
+}
+
+.guia-pasos {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-xs);
+    margin: var(--espacio-xs) 0;
+    text-align: left;
+}
+
+.guia-item {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-sm);
+    background: rgba(0, 0, 0, 0.25);
+    padding: var(--espacio-xs) var(--espacio-sm);
+    border-radius: var(--radio-sm);
+}
+
+.guia-icono-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--color-fondo);
+    border-radius: var(--radio-sm);
+    flex-shrink: 0;
+}
+
+.guia-item strong {
+    display: block;
+    font-size: var(--txt-sm);
+    color: var(--color-texto);
+}
+
+.guia-item p {
+    font-size: var(--txt-sm);
+    color: var(--color-texto-mutado);
+    margin: 0;
+}
