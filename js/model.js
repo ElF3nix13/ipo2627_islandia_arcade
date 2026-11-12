@@ -8,6 +8,7 @@ export class Model {
         this.tiempo = 0;
         this.juegoTerminado = false;
         this.victoria = false;
+        this.bolaEsperando = false;
         
         this.bola = { x: 400, y: 300, dx: 0, dy: 0, radio: 8 };
         this.paleta = { x: 350, y: 460, w: 100, h: 12 };
@@ -33,16 +34,32 @@ export class Model {
         this.config.velocidadBase = config.velocidad === 'lenta' ? 4 : (config.velocidad === 'rapida' ? 8 : 6);
         this.paleta.w = this.config.tamanoPaleta;
 
-        this.resetBola();
+        // La primera bola se lanza automáticamente al comenzar la partida.
+        this.resetBola(true);
         this.generarLadrillos();
     }
 
-    resetBola() {
+    resetBola(lanzar = false) {
         this.bola.x = this.anchoCanvas / 2;
         this.bola.y = this.altoCanvas - 60;
+        this.paleta.x = (this.anchoCanvas - this.paleta.w) / 2;
+
+        // Primero se prepara la bola; lanzarBola() cambiará este estado si procede.
+        this.bolaEsperando = true;
+        this.bola.dx = 0;
+        this.bola.dy = 0;
+
+        if (lanzar) {
+            this.lanzarBola();
+        }
+    }
+
+    lanzarBola() {
+        if (!this.bolaEsperando || this.juegoTerminado) return;
+
         this.bola.dx = this.config.velocidadBase * (Math.random() > 0.5 ? 1 : -1);
         this.bola.dy = -this.config.velocidadBase;
-        this.paleta.x = (this.anchoCanvas - this.paleta.w) / 2;
+        this.bolaEsperando = false;
     }
 
     generarLadrillos() {
@@ -82,7 +99,7 @@ export class Model {
     }
 
     actualizarFisicas() {
-        if (this.juegoTerminado) return;
+        if (this.juegoTerminado || this.bolaEsperando) return;
 
         this.bola.x += this.bola.dx;
         this.bola.y += this.bola.dy;
@@ -109,6 +126,7 @@ export class Model {
                 this.juegoTerminado = true;
                 this.victoria = false;
             } else {
+                // La siguiente bola queda preparada hasta que el jugador haga click.
                 this.resetBola();
             }
             return;

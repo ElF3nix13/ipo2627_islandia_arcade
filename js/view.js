@@ -94,13 +94,14 @@ export class View {
         slider.addEventListener('input', e => valorSpan.textContent = e.target.value);
     }
 
-    bindEventosJuego(handlerMover, handlerPausa, handlerAyuda, handlerContinuar, handlerSalir) {
+    bindEventosJuego(handlerMover, handlerLanzar, handlerPausa, handlerAyuda, handlerContinuar, handlerSalir) {
         // Ratón para mover paleta (ajustando la escala del canvas real vs visual)
         this.canvas.addEventListener('mousemove', e => {
             const rect = this.canvas.getBoundingClientRect();
             const escalaX = this.canvas.width / rect.width;
             handlerMover((e.clientX - rect.left) * escalaX);
         });
+        this.canvas.addEventListener('click', handlerLanzar);
 
         document.getElementById('btn-pausa').addEventListener('click', handlerPausa);
         document.getElementById('btn-continuar').addEventListener('click', handlerContinuar);

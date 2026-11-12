@@ -16,6 +16,7 @@ export class Controller {
         this.view.bindEventosInicio(() => this.iniciarJuego());
         this.view.bindEventosJuego(
             (x) => this.manejarMovimiento(x),
+            () => this.lanzarBola(),
             () => this.pausarJuego(),
             () => this.mostrarAyuda(),
             () => this.reanudarJuego(),
@@ -36,6 +37,12 @@ export class Controller {
     manejarMovimiento(x) {
         if (!this.enPausa) {
             this.model.moverPaleta(x);
+        }
+    }
+
+    lanzarBola() {
+        if (!this.enPausa) {
+            this.model.lanzarBola();
         }
     }
 
