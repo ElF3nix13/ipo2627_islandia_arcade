@@ -97,7 +97,7 @@ body {
     margin-bottom: var(--espacio-sm);
 }
 
-#titulo-fin {
+.titulo-fin {
     font-size: var(--txt-xl);
     font-weight: bold;
     margin-bottom: var(--espacio-md);
@@ -210,7 +210,7 @@ input[type="range"] {
 }
 
 .icono-corazon {
-    fill: #ff4757;
+    fill: var(--color-complementario);
     transition: 0.2s ease;
 }
 

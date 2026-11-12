@@ -13,25 +13,25 @@
 <body>
     <main class="contenedor-principal">
         <!-- PANTALLA INICIAL (Menú y Ajustes) -->
-        <section id="pantalla-inicio" class="pantalla pantalla--activa">
+        <section data-pantalla="inicio" class="pantalla pantalla--activa">
             <div class="caja-menu">
                 <h1 class="titulo-juego">BREAKOUT</h1>
                 
                 <!-- Menú Principal -->
-                <div id="menu-principal" class="menu-bloque">
-                    <button id="btn-jugar" class="btn btn--primario btn--grande">Jugar</button>
+                <div data-menu="principal" class="menu-bloque">
+                    <button data-action="jugar" class="btn btn--primario btn--grande">Jugar</button>
                     <div class="menu-secundario"> 
-                        <button id="btn-ajustes" class="btn btn--secundario btn--mediano">Ajustes</button>
-                        <button id="btn-abrir-ayuda" class="btn btn--secundario btn--mediano" aria-label="Ayuda">Cómo Jugar</button>
+                        <button data-action="abrir-ajustes" class="btn btn--secundario btn--mediano">Ajustes</button>
+                        <button data-action="abrir-ayuda" class="btn btn--secundario btn--mediano" aria-label="Ayuda">Cómo Jugar</button>
                     </div>
                 </div>
 
                 <!-- Menú de Ajustes -->
-                <div id="menu-ajustes" class="menu-bloque oculto">
+                <div data-menu="ajustes" class="menu-bloque oculto">
                     
                     <div class="ajuste-grupo">
                         <label>Tamaño de la Paleta</label>
-                        <div class="control-segmentado" id="control-paleta">
+                        <div class="control-segmentado" data-setting-group="paleta">
                             <button class="btn-seg" data-val="pequena">Pequeña</button>
                             <button class="btn-seg activo" data-val="mediana">Mediana</button>
                             <button class="btn-seg" data-val="grande">Grande</button>
@@ -40,7 +40,7 @@
 
                     <div class="ajuste-grupo">
                         <label>Velocidad de la Bola</label>
-                        <div class="control-segmentado" id="control-velocidad">
+                        <div class="control-segmentado" data-setting-group="velocidad">
                             <button class="btn-seg" data-val="lenta">Lenta</button>
                             <button class="btn-seg activo" data-val="normal">Normal</button>
                             <button class="btn-seg" data-val="rapida">Rápida</button>
@@ -48,66 +48,64 @@
                     </div>
 
                     <div class="ajuste-grupo">
-                        <label>Filas de Ladrillos: <span id="valor-filas">4</span></label>
-                        <input type="range" id="input-filas" min="2" max="8" value="4">
+                        <label>Filas de Ladrillos: <span data-bind="valor-filas">4</span></label>
+                        <input type="range" data-setting="filas" min="2" max="8" value="4">
                     </div>
 
-                    <button id="btn-guardar-ajustes" class="btn btn--primario btn--mediano">Guardar</button>
+                    <button data-action="guardar-ajustes" class="btn btn--primario btn--mediano">Guardar</button>
                 </div>
             </div>
         </section>
 
         <!-- PANTALLA DE JUEGO -->
-        <section id="pantalla-juego" class="pantalla oculto">
+        <section data-pantalla="juego" class="pantalla oculto">
             <div class="hud-juego">
                 <div class="hud-stats">
-                    <div id="indicador-vidas" class="hud-vidas" aria-label="3 vidas restantes">
+                    <div data-hud="vidas" class="hud-vidas" aria-label="3 vidas restantes">
                         <img src="img/corazon.svg" class="icono icono-corazon" alt="" aria-hidden="true">
                         <img src="img/corazon.svg" class="icono icono-corazon" alt="" aria-hidden="true">
                         <img src="img/corazon.svg" class="icono icono-corazon" alt="" aria-hidden="true">
                     </div>
                     <div class="hud-tiempo">
                         <img src="img/reloj.svg" class="icono" alt="" aria-hidden="true">
-                        <span><span id="indicador-tiempo">0</span>s</span>
+                        <span><span data-bind="tiempo">0</span>s</span>
                     </div>
                 </div>
-                <button id="btn-pausa" class="btn btn--secundario btn-icono" aria-label="Pausar Partida">
+                <button data-action="pausar" class="btn btn--secundario btn-icono" aria-label="Pausar Partida">
                     <svg class="icono" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
                 </button>
             </div>
             <div class="canvas-contenedor">
-                <canvas id="canvas-juego" width="800" height="500"></canvas>
+                <canvas data-canvas="juego" width="800" height="500"></canvas>
             </div>
         </section>
 
         <!-- PANTALLA DE FIN -->
-        <section id="pantalla-fin" class="pantalla oculto">
+        <section data-pantalla="fin" class="pantalla oculto">
             <div class="caja-menu">
-                <h2 id="titulo-fin">Fin</h2>
-                <p class="resultado-tiempo">Tiempo total: <strong id="tiempo-final">0</strong>s</p>
+                <h2 class="titulo-fin" data-bind="titulo-fin">Fin</h2>
+                <p class="resultado-tiempo">Tiempo total: <strong data-bind="tiempo-final">0</strong>s</p>
                 
                 <div class="menu-bloque">
-                    <!-- Inicia partida directamente -->
-                    <button id="btn-nueva-partida" class="btn btn--primario btn--grande">Nueva Partida</button>
-                    <!-- Devuelve a la pantalla principal -->
-                    <button id="btn-volver-menu" class="btn btn--secundario btn--mediano">Volver al Menú</button>
+                    <button data-action="nueva-partida" class="btn btn--primario btn--grande">Nueva Partida</button>
+                    <button data-action="volver-menu" class="btn btn--secundario btn--mediano">Volver al Menú</button>
                 </div>
             </div>
         </section>
     </main>
 
     <!-- MODALES NATIVOS -->
-    <dialog id="modal-ayuda" class="modal">
+    <dialog data-modal="ayuda" class="modal">
         <div class="modal-contenido modal-ayuda-contenido">
-            <h2 class="subtitulo">Cómo jugar</h2>
+            <h2 class="subtitulo">Cómo Jugar</h2>
             <div class="guia-pasos">
                 <div class="guia-item">
                     <span class="guia-icono-box">
                         <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="8 8 4 12 8 16"/><polyline points="16 8 20 12 16 16"/></svg>
                     </span>
                     <div>
-                        <strong>Mover paleta</strong>
-                        <p>Desplaza el ratón por la pantalla</p>
+                        <strong>Mover la paleta</strong>
+                        <p>Desplaza el ratón de un lado a otro</p>
                     </div>
                 </div>
                 <div class="guia-item">
@@ -115,8 +113,8 @@
                         <img src="img/click.svg" class="icono" alt="" aria-hidden="true">
                     </span>
                     <div>
-                        <strong>Lanzar bola</strong>
-                        <p>Haz clic para iniciar o tras perder vida</p>
+                        <strong>Lanzar la bola</strong>
+                        <p>Haz clic para iniciar o tras perder una vida</p>
                     </div>
                 </div>
                 <div class="guia-item">
@@ -129,16 +127,15 @@
                     </div>
                 </div>
             </div>
-            <button id="btn-cerrar-ayuda" class="btn btn--primario btn--mediano">¡Entendido!</button>
+            <button data-action="cerrar-ayuda" class="btn btn--primario btn--mediano">Entendido</button>
         </div>
     </dialog>
 
-    <dialog id="modal-pausa" class="modal">
+    <dialog data-modal="pausa" class="modal">
         <div class="modal-contenido">
             <h2 class="subtitulo">Juego Pausado</h2>
-            <button id="btn-continuar" class="btn btn--primario btn--mediano">Continuar</button>
-            <!-- Botón Salir ahora utiliza la clase btn--gris -->
-            <button id="btn-salir" class="btn btn--secundario btn--mediano">Salir al Menú</button>
+            <button data-action="continuar" class="btn btn--primario btn--mediano">Continuar</button>
+            <button data-action="salir" class="btn btn--secundario btn--mediano">Salir al Menú</button>
         </div>
     </dialog>
 </body>

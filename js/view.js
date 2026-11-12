@@ -2,34 +2,34 @@
 
 export class View {
     constructor() {
-        // Elementos DOM
+        // Elementos DOM con data-attributes
         this.pantallas = {
-            inicio: document.getElementById('pantalla-inicio'),
-            juego: document.getElementById('pantalla-juego'),
-            fin: document.getElementById('pantalla-fin')
+            inicio: document.querySelector('[data-pantalla="inicio"]'),
+            juego: document.querySelector('[data-pantalla="juego"]'),
+            fin: document.querySelector('[data-pantalla="fin"]')
         };
         
         this.menus = {
-            principal: document.getElementById('menu-principal'),
-            ajustes: document.getElementById('menu-ajustes')
+            principal: document.querySelector('[data-menu="principal"]'),
+            ajustes: document.querySelector('[data-menu="ajustes"]')
         };
         
         // Canvas y HUD
-        this.canvas = document.getElementById('canvas-juego');
+        this.canvas = document.querySelector('[data-canvas="juego"]');
         this.ctx = this.canvas.getContext('2d');
         this.imgClick = new Image();
         this.imgClick.src = 'img/click.svg';
         this.ui = {
-            corazones: document.querySelectorAll('#indicador-vidas .icono-corazon'),
-            tiempo: document.getElementById('indicador-tiempo'),
-            tiempoFinal: document.getElementById('tiempo-final'),
-            tituloFin: document.getElementById('titulo-fin')
+            corazones: document.querySelectorAll('[data-hud="vidas"] .icono-corazon'),
+            tiempo: document.querySelector('[data-bind="tiempo"]'),
+            tiempoFinal: document.querySelector('[data-bind="tiempo-final"]'),
+            tituloFin: document.querySelector('[data-bind="titulo-fin"]')
         };
         
         // Modales
         this.modales = {
-            ayuda: document.getElementById('modal-ayuda'),
-            pausa: document.getElementById('modal-pausa')
+            ayuda: document.querySelector('[data-modal="ayuda"]'),
+            pausa: document.querySelector('[data-modal="pausa"]')
         };
 
         this.extraerColoresCSS();
@@ -50,9 +50,9 @@ export class View {
 
     getConfiguracion() {
         return {
-            paleta: document.querySelector('#control-paleta .activo').dataset.val,
-            velocidad: document.querySelector('#control-velocidad .activo').dataset.val,
-            filas: parseInt(document.getElementById('input-filas').value, 10)
+            paleta: document.querySelector('[data-setting-group="paleta"] .activo').dataset.val,
+            velocidad: document.querySelector('[data-setting-group="velocidad"] .activo').dataset.val,
+            filas: parseInt(document.querySelector('[data-setting="filas"]').value, 10)
         };
     }
 
@@ -74,11 +74,11 @@ export class View {
     cerrarModal(nombre) { this.modales[nombre].close(); }
 
     bindEventosInicio(handlerJugar) {
-        document.getElementById('btn-jugar').addEventListener('click', handlerJugar);
-        document.getElementById('btn-nueva-partida').addEventListener('click', handlerJugar);
-        document.getElementById('btn-volver-menu').addEventListener('click', () => this.mostrarPantalla('inicio'));
-        document.getElementById('btn-ajustes').addEventListener('click', () => this.toggleAjustes(true));
-        document.getElementById('btn-guardar-ajustes').addEventListener('click', () => this.toggleAjustes(false));
+        document.querySelector('[data-action="jugar"]').addEventListener('click', handlerJugar);
+        document.querySelector('[data-action="nueva-partida"]').addEventListener('click', handlerJugar);
+        document.querySelector('[data-action="volver-menu"]').addEventListener('click', () => this.mostrarPantalla('inicio'));
+        document.querySelector('[data-action="abrir-ajustes"]').addEventListener('click', () => this.toggleAjustes(true));
+        document.querySelector('[data-action="guardar-ajustes"]').addEventListener('click', () => this.toggleAjustes(false));
         
         // Segmented controls UI logic
         document.querySelectorAll('.control-segmentado').forEach(grupo => {
@@ -91,13 +91,12 @@ export class View {
         });
 
         // Slider UI logic
-        const slider = document.getElementById('input-filas');
-        const valorSpan = document.getElementById('valor-filas');
+        const slider = document.querySelector('[data-setting="filas"]');
+        const valorSpan = document.querySelector('[data-bind="valor-filas"]');
         slider.addEventListener('input', e => valorSpan.textContent = e.target.value);
     }
 
     bindEventosJuego(handlerMover, handlerLanzar, handlerPausa, handlerAyuda, handlerContinuar, handlerSalir) {
-        // Ratón para mover paleta (ajustando la escala del canvas real vs visual)
         this.canvas.addEventListener('mousemove', e => {
             const rect = this.canvas.getBoundingClientRect();
             const escalaX = this.canvas.width / rect.width;
@@ -105,30 +104,27 @@ export class View {
         });
         this.canvas.addEventListener('click', handlerLanzar);
 
-        document.getElementById('btn-pausa').addEventListener('click', handlerPausa);
-        document.getElementById('btn-continuar').addEventListener('click', handlerContinuar);
-        document.getElementById('btn-salir').addEventListener('click', handlerSalir);
+        document.querySelector('[data-action="pausar"]').addEventListener('click', handlerPausa);
+        document.querySelector('[data-action="continuar"]').addEventListener('click', handlerContinuar);
+        document.querySelector('[data-action="salir"]').addEventListener('click', handlerSalir);
         
-        document.getElementById('btn-abrir-ayuda').addEventListener('click', handlerAyuda);
-        document.getElementById('btn-cerrar-ayuda').addEventListener('click', () => this.cerrarModal('ayuda'));
+        document.querySelector('[data-action="abrir-ayuda"]').addEventListener('click', handlerAyuda);
+        document.querySelector('[data-action="cerrar-ayuda"]').addEventListener('click', () => this.cerrarModal('ayuda'));
     }
 
     renderizarJuego(estado) {
-        // Borrar frame anterior
+        // (El renderizado del canvas se mantiene intacto porque no utilizaba IDs)
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Paleta
         this.ctx.fillStyle = this.colores.paleta;
         this.ctx.fillRect(estado.paleta.x, estado.paleta.y, estado.paleta.w, estado.paleta.h);
 
-        // Bola
         this.ctx.beginPath();
         this.ctx.arc(estado.bola.x, estado.bola.y, estado.bola.radio, 0, Math.PI * 2);
         this.ctx.fillStyle = this.colores.bola;
         this.ctx.fill();
         this.ctx.closePath();
 
-        // Ladrillos
         estado.ladrillos.forEach(col => {
             col.forEach(b => {
                 if (b.estado === 1) {
@@ -138,7 +134,6 @@ export class View {
             });
         });
 
-        // Mensaje de espera con icono de click
         if (estado.bolaEsperando) {
             this.ctx.font = 'bold 18px sans-serif';
             this.ctx.fillStyle = '#ffffff';
@@ -155,7 +150,6 @@ export class View {
             this.ctx.fillText(texto, x + tam + gap, y);
         }
 
-        // HUD
         this.ui.corazones.forEach((c, i) => c.classList.toggle('icono-corazon--perdido', i >= estado.vidas));
         this.ui.tiempo.textContent = estado.tiempo;
     }
