@@ -29,7 +29,7 @@
                 <!-- Menú de Ajustes -->
                 <div data-menu="ajustes" class="menu-bloque oculto">
                     <div class="ajuste-grupo">
-                        <label>Tamaño de la Paleta</label>
+                        <label>Tamaño de la paleta</label>
                         <div class="control-segmentado" data-setting-group="paleta">
                             <button class="control-segmentado__btn" data-val="pequena">Pequeña</button>
                             <button class="control-segmentado__btn control-segmentado__btn--activo" data-val="mediana">Mediana</button>
@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="ajuste-grupo">
-                        <label>Velocidad de la Bola</label>
+                        <label>Velocidad de la bola</label>
                         <div class="control-segmentado" data-setting-group="velocidad">
                             <button class="control-segmentado__btn" data-val="lenta">Lenta</button>
                             <button class="control-segmentado__btn control-segmentado__btn--activo" data-val="normal">Normal</button>
@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="ajuste-grupo">
-                        <label>Filas de Ladrillos: <span data-bind="valor-filas">4</span></label>
+                        <label>Filas de ladrillos: <span data-bind="valor-filas">4</span></label>
                         <input type="range" data-setting="filas" min="2" max="8" value="4">
                     </div>
 
@@ -102,7 +102,7 @@
                     </div>
                     <div class="hud__tiempo">
                         <img src="img/reloj.svg" class="icono" alt="" aria-hidden="true">
-                        <span><span data-bind="tiempo">0</span>s</span>
+                        <span><span data-bind="tiempo">0
                     </div>
                 </div>
                 <button data-action="pausar" class="btn btn--secundario btn--icono" aria-label="Pausar Partida">
@@ -118,7 +118,7 @@
         <section data-pantalla="fin" class="pantalla oculto">
             <div class="caja-menu">
                 <h2 class="titulo-fin" data-bind="titulo-fin">Fin</h2>
-                <p class="resultado-tiempo">Tiempo total: <strong data-bind="tiempo-final">0</strong>s</p>
+                <p class="resultado-tiempo">Tiempo total: <strong data-bind="tiempo-final">0</strong> s</p>
                 
                 <div class="menu-bloque">
                     <button data-action="nueva-partida" class="btn btn--primario btn--grande">Nueva Partida</button>
@@ -128,7 +128,7 @@
         </section>
     </main>
 
-    <!-- MODAL NATIVO (Únicamente para la Pausa) -->
+    <!-- MODAL DE PAUSA -->
     <dialog data-modal="pausa" class="modal">
         <div class="modal__contenido">
             <h2 class="subtitulo">Juego Pausado</h2>

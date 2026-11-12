@@ -33,26 +33,29 @@
     --fuente-titulo: 'Impact', 'Arial Black', sans-serif;
     --fuente-base: system-ui, -apple-system, sans-serif;
     
-    --txt-sm: 0.875rem;
-    --txt-md: 1rem;
-    --txt-lg: 1.25rem;
-    --txt-xl: 2.5rem;
-    --txt-2xl: clamp(2.5rem, 5vw, 4rem);
+    /* Escala de texto ajustada (Zoom +) */
+    --txt-sm: 1rem;
+    --txt-md: 1.15rem;
+    --txt-lg: 1.5rem;
+    --txt-xl: 3rem;
+    --txt-2xl: clamp(3rem, 6vw, 4.5rem);
 
-    /* DISEÑO ESPACIAL Y LAYOUT */
-    --espacio-xs: 0.5rem;
-    --espacio-sm: 1rem;
-    --espacio-md: 1.25rem;
-    --espacio-lg: 2rem;
-    --espacio-xl: 3rem;
+    /* DISEÑO ESPACIAL Y LAYOUT (Escala aumentada) */
+    --espacio-2xs: 0.5rem;
+    --espacio-xs: 0.75rem;
+    --espacio-sm: 1.25rem;
+    --espacio-md: 1.75rem;
+    --espacio-lg: 2.5rem;
+    --espacio-xl: 3.5rem;
     
     --radio-sm: 8px;
     --radio-md: 16px;
 
     /* Tamaños estructurales generales */
-    --ancho-juego: 800px;
+    /* El canvas tiene proporción 800/500 = 1.6. Calculamos el ancho basado en la altura de la pantalla (100vh) menos un margen de 140px para albergar el HUD */
+    --ancho-juego: min(95vw, calc((100vh - 140px) * 1.6));
     --ancho-max-juego: 95vw;
-    --ancho-menu: clamp(300px, 90vw, 450px);
-    --ancho-modal: clamp(280px, 80vw, 400px);
-    --ancho-modal-lg: clamp(300px, 90vw, 420px);
+    --ancho-menu: clamp(350px, 85vw, 550px);
+    --ancho-modal: clamp(320px, 80vw, 500px);
+    --ancho-modal-lg: clamp(350px, 85vw, 550px);
 }

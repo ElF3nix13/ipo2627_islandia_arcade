@@ -45,6 +45,8 @@ body {
     width: var(--ancho-menu);
     text-align: center;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-height: 90vh; /* Seguridad: Evita que golpee el límite de la pantalla */
+    overflow-y: auto;
 }
 
 .menu-bloque {
@@ -74,7 +76,7 @@ body {
 }
 
 .ajuste-grupo label {
-    font-size: var(--txt-sm);
+    font-size: var(--txt-md);
     font-weight: bold;
     color: var(--color-texto-mutado);
 }
@@ -152,9 +154,10 @@ body {
 }
 
 .btn--icono {
-    width: 44px;
-    height: 44px;
+    width: 3.5rem;
+    height: 3.5rem;
     padding: 0;
+    border-radius: 100%;
 }
 
 .btn--icono .icono {
@@ -179,11 +182,12 @@ body {
     color: var(--color-texto-mutado);
     cursor: pointer;
     border-radius: var(--radio-sm);
+    font-size: var(--txt-sm);
 }
 
 .control-segmentado__btn--activo {
     background: var(--color-primario);
-    color: #fff;
+    color: var(--color-texto);
     font-weight: bold;
 }
 
@@ -196,7 +200,7 @@ input[type="range"] {
 .hud {
     display: flex;
     justify-content: space-between;
-    width: var(--ancho-juego);
+    width: var(--ancho-juego); /* Se ata al mismo cálculo del contenedor */
     max-width: var(--ancho-max-juego);
     margin-bottom: var(--espacio-sm);
     align-items: center;
@@ -207,13 +211,13 @@ input[type="range"] {
     font-weight: bold;
     display: flex;
     align-items: center;
-    gap: var(--espacio-md);
+    gap: var(--espacio-lg);
 }
 
 .hud__vidas, .hud__tiempo {
     display: inline-flex;
     align-items: center;
-    gap: var(--espacio-xs);
+    gap: var(--espacio-2xs);
 }
 
 .icono {
@@ -245,7 +249,8 @@ input[type="range"] {
 
 canvas {
     display: block;
-    width: 100%;
+    width: 100%; /* Toma el ancho del contenedor dinámico... */
+    height: auto; /* ...y auto-adapta la altura respetando su ratio original */
     background-color: #111;
 }
 
@@ -274,6 +279,8 @@ canvas {
     width: var(--ancho-modal);
     border-radius: var(--radio-md);
     text-align: center;
+    max-height: 90vh; /* Misma medida de seguridad que caja-menu */
+    overflow-y: auto;
 }
 
 .modal__contenido--ayuda {
@@ -284,7 +291,7 @@ canvas {
     display: flex;
     flex-direction: column;
     gap: var(--espacio-xs);
-    margin: var(--espacio-xs) 0;
+    margin: 0;
     text-align: left;
 }
 
@@ -301,8 +308,8 @@ canvas {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 3.5rem; /* Ajustado dinámicamente con rem para el zoom */
+    height: 3.5rem;
     background: var(--color-fondo);
     border-radius: var(--radio-sm);
     flex-shrink: 0;
