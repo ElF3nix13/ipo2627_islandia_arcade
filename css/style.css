@@ -192,14 +192,43 @@ input[type="range"] {
     font-size: var(--txt-lg);
     font-weight: bold;
     display: flex;
+    align-items: center;
     gap: var(--espacio-md);
+}
+
+.icono {
+    width: 1.25rem;
+    height: 1.25rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.hud-vidas, .hud-tiempo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espacio-xs);
+}
+
+.icono-corazon {
+    fill: #ff4757;
+    transition: 0.2s ease;
+}
+
+.icono-corazon--perdido {
+    opacity: 0.2;
+    transform: scale(0.8);
+    filter: grayscale(1);
 }
 
 .btn-icono {
     width: 44px;
     height: 44px;
-    font-size: 1.2rem;
     padding: 0;
+}
+
+.btn-icono .icono {
+    width: 1.2rem;
+    height: 1.2rem;
 }
 
 .canvas-contenedor {

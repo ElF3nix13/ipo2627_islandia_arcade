@@ -18,7 +18,7 @@ export class View {
         this.canvas = document.getElementById('canvas-juego');
         this.ctx = this.canvas.getContext('2d');
         this.ui = {
-            vidas: document.getElementById('indicador-vidas'),
+            corazones: document.querySelectorAll('#indicador-vidas .icono-corazon'),
             tiempo: document.getElementById('indicador-tiempo'),
             tiempoFinal: document.getElementById('tiempo-final'),
             tituloFin: document.getElementById('titulo-fin')
@@ -137,7 +137,7 @@ export class View {
         });
 
         // HUD
-        this.ui.vidas.textContent = '❤️'.repeat(estado.vidas) + '🤍'.repeat(3 - estado.vidas);
+        this.ui.corazones.forEach((c, i) => c.classList.toggle('icono-corazon--perdido', i >= estado.vidas));
         this.ui.tiempo.textContent = estado.tiempo;
     }
 
