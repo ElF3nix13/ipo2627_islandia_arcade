@@ -34,7 +34,6 @@ export class Model {
         this.config.velocidadBase = config.velocidad === 'lenta' ? 4 : (config.velocidad === 'rapida' ? 8 : 6);
         this.paleta.w = this.config.tamanoPaleta;
 
-        // La primera bola se lanza automáticamente al comenzar la partida.
         this.resetBola(true);
         this.generarLadrillos();
     }
@@ -44,7 +43,6 @@ export class Model {
         this.bola.y = this.altoCanvas - 60;
         this.paleta.x = (this.anchoCanvas - this.paleta.w) / 2;
 
-        // Primero se prepara la bola; lanzarBola() cambiará este estado si procede.
         this.bolaEsperando = true;
         this.bola.dx = 0;
         this.bola.dy = 0;
@@ -88,9 +86,15 @@ export class Model {
     moverPaleta(xRelativo) {
         if (xRelativo > 0 && xRelativo < this.anchoCanvas) {
             this.paleta.x = xRelativo - this.paleta.w / 2;
-            // Límites
+            
+            // Límites de la paleta
             if (this.paleta.x < 0) this.paleta.x = 0;
             if (this.paleta.x + this.paleta.w > this.anchoCanvas) this.paleta.x = this.anchoCanvas - this.paleta.w;
+            
+            // Si la bola está esperando, la actualizamos para que siga exactamente el centro de la paleta
+            if (this.bolaEsperando) {
+                this.bola.x = this.paleta.x + this.paleta.w / 2;
+            }
         }
     }
 
@@ -126,7 +130,6 @@ export class Model {
                 this.juegoTerminado = true;
                 this.victoria = false;
             } else {
-                // La siguiente bola queda preparada hasta que el jugador haga click.
                 this.resetBola();
             }
             return;
@@ -141,6 +144,7 @@ export class Model {
             
             this.bola.y = this.paleta.y - this.bola.radio;
             this.bola.dy = -this.config.velocidadBase;
+            
             // Modificar ángulo (dx) según zona de impacto
             let puntoImpacto = this.bola.x - (this.paleta.x + this.paleta.w / 2);
             this.bola.dx = (puntoImpacto / (this.paleta.w / 2)) * this.config.velocidadBase;
