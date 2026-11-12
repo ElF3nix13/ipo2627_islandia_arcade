@@ -91,18 +91,19 @@ body {
     font-size: var(--txt-lg);
     font-weight: bold;
     color: var(--color-texto);
-    margin-bottom: var(--espacio-sm);
+    margin-bottom: 0;
 }
 
 .titulo-fin {
     font-size: var(--txt-xl);
     font-weight: bold;
-    margin-bottom: var(--espacio-md);
+    margin-bottom: 0;
 }
 
 .resultado-tiempo {
     font-size: var(--txt-lg);
-    margin-bottom: var(--espacio-sm);
+    margin-top: var(--espacio-xs);
+    margin-bottom: var(--espacio-lg);
 }
 
 /* Componentes Interactivos */

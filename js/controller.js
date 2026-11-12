@@ -14,11 +14,12 @@ export class Controller {
 
     inicializarControlador() {
         this.view.bindEventosInicio(() => this.iniciarJuego());
+        
+        // Se ha eliminado handlerAyuda, ajustando a los 5 eventos reales
         this.view.bindEventosJuego(
             (x) => this.manejarMovimiento(x),
             () => this.lanzarBola(),
             () => this.pausarJuego(),
-            () => this.mostrarAyuda(),
             () => this.reanudarJuego(),
             () => this.salirAlMenu()
         );
@@ -59,16 +60,10 @@ export class Controller {
         this.view.abrirModal('pausa');
     }
 
-    mostrarAyuda() {
-        this.enPausa = true;
-        cancelAnimationFrame(this.animacionID);
-        this.view.abrirModal('ayuda');
-    }
-
     reanudarJuego() {
         this.enPausa = false;
         this.view.cerrarModal('pausa');
-        this.view.cerrarModal('ayuda');
+        // Eliminado el cerrarModal('ayuda') que causaba el crash
         this.loop();
     }
 

@@ -12,7 +12,7 @@
 
 <body>
     <main class="contenedor-principal">
-        <!-- PANTALLA INICIAL (Menú y Ajustes) -->
+        <!-- PANTALLA INICIAL (Menú, Ajustes y Ayuda) -->
         <section data-pantalla="inicio" class="pantalla pantalla--activa">
             <div class="caja-menu">
                 <h1 class="titulo-juego">BREAKOUT</h1>
@@ -28,7 +28,6 @@
 
                 <!-- Menú de Ajustes -->
                 <div data-menu="ajustes" class="menu-bloque oculto">
-                    
                     <div class="ajuste-grupo">
                         <label>Tamaño de la Paleta</label>
                         <div class="control-segmentado" data-setting-group="paleta">
@@ -53,6 +52,41 @@
                     </div>
 
                     <button data-action="guardar-ajustes" class="btn btn--primario btn--mediano btn--menu">Guardar</button>
+                </div>
+
+                <!-- Menú de Ayuda -->
+                <div data-menu="ayuda" class="menu-bloque oculto">
+                    <h2 class="subtitulo">Cómo Jugar</h2>
+                    <div class="guia-pasos">
+                        <div class="guia-pasos__item">
+                            <span class="guia-pasos__icono-box">
+                                <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="8 8 4 12 8 16"/><polyline points="16 8 20 12 16 16"/></svg>
+                            </span>
+                            <div>
+                                <strong>Mover la paleta</strong>
+                                <p>Desplaza el ratón de un lado a otro</p>
+                            </div>
+                        </div>
+                        <div class="guia-pasos__item">
+                            <span class="guia-pasos__icono-box">
+                                <img src="img/click.svg" class="icono" alt="" aria-hidden="true">
+                            </span>
+                            <div>
+                                <strong>Lanzar la bola</strong>
+                                <p>Haz clic para iniciar o tras perder una vida</p>
+                            </div>
+                        </div>
+                        <div class="guia-pasos__item">
+                            <span class="guia-pasos__icono-box">
+                                <img src="img/corazon.svg" class="icono icono--corazon" alt="" aria-hidden="true">
+                            </span>
+                            <div>
+                                <strong>Objetivo</strong>
+                                <p>Destruye los ladrillos sin perder las 3 vidas</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button data-action="cerrar-ayuda" class="btn btn--primario btn--mediano btn--menu">Entendido</button>
                 </div>
             </div>
         </section>
@@ -94,43 +128,7 @@
         </section>
     </main>
 
-    <!-- MODALES NATIVOS -->
-    <dialog data-modal="ayuda" class="modal">
-        <div class="modal__contenido modal__contenido--ayuda">
-            <h2 class="subtitulo">Cómo Jugar</h2>
-            <div class="guia-pasos">
-                <div class="guia-pasos__item">
-                    <span class="guia-pasos__icono-box">
-                        <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="8 8 4 12 8 16"/><polyline points="16 8 20 12 16 16"/></svg>
-                    </span>
-                    <div>
-                        <strong>Mover la paleta</strong>
-                        <p>Desplaza el ratón de un lado a otro</p>
-                    </div>
-                </div>
-                <div class="guia-pasos__item">
-                    <span class="guia-pasos__icono-box">
-                        <img src="img/click.svg" class="icono" alt="" aria-hidden="true">
-                    </span>
-                    <div>
-                        <strong>Lanzar la bola</strong>
-                        <p>Haz clic para iniciar o tras perder una vida</p>
-                    </div>
-                </div>
-                <div class="guia-pasos__item">
-                    <span class="guia-pasos__icono-box">
-                        <img src="img/corazon.svg" class="icono icono--corazon" alt="" aria-hidden="true">
-                    </span>
-                    <div>
-                        <strong>Objetivo</strong>
-                        <p>Destruye los ladrillos sin perder las 3 vidas</p>
-                    </div>
-                </div>
-            </div>
-            <button data-action="cerrar-ayuda" class="btn btn--primario btn--mediano btn--menu">Entendido</button>
-        </div>
-    </dialog>
-
+    <!-- MODAL NATIVO (Únicamente para la Pausa) -->
     <dialog data-modal="pausa" class="modal">
         <div class="modal__contenido">
             <h2 class="subtitulo">Juego Pausado</h2>

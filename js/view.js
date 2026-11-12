@@ -10,7 +10,8 @@ export class View {
         
         this.menus = {
             principal: document.querySelector('[data-menu="principal"]'),
-            ajustes: document.querySelector('[data-menu="ajustes"]')
+            ajustes: document.querySelector('[data-menu="ajustes"]'),
+            ayuda: document.querySelector('[data-menu="ayuda"]')
         };
         
         this.canvas = document.querySelector('[data-canvas="juego"]');
@@ -25,8 +26,8 @@ export class View {
             tituloFin: document.querySelector('[data-bind="titulo-fin"]')
         };
         
+        // La ayuda ya no es un modal
         this.modales = {
-            ayuda: document.querySelector('[data-modal="ayuda"]'),
             pausa: document.querySelector('[data-modal="pausa"]')
         };
 
@@ -63,9 +64,10 @@ export class View {
         this.pantallas[nombre].classList.add('pantalla--activa');
     }
 
-    toggleAjustes(mostrar) {
-        this.menus.principal.classList.toggle('oculto', mostrar);
-        this.menus.ajustes.classList.toggle('oculto', !mostrar);
+    // Nuevo método para intercambiar menús internos de la pantalla de inicio
+    mostrarMenu(nombre) {
+        Object.values(this.menus).forEach(m => m.classList.add('oculto'));
+        this.menus[nombre].classList.remove('oculto');
     }
 
     abrirModal(nombre) { this.modales[nombre].showModal(); }
@@ -74,9 +76,18 @@ export class View {
     bindEventosInicio(handlerJugar) {
         document.querySelector('[data-action="jugar"]').addEventListener('click', handlerJugar);
         document.querySelector('[data-action="nueva-partida"]').addEventListener('click', handlerJugar);
-        document.querySelector('[data-action="volver-menu"]').addEventListener('click', () => this.mostrarPantalla('inicio'));
-        document.querySelector('[data-action="abrir-ajustes"]').addEventListener('click', () => this.toggleAjustes(true));
-        document.querySelector('[data-action="guardar-ajustes"]').addEventListener('click', () => this.toggleAjustes(false));
+        
+        document.querySelector('[data-action="volver-menu"]').addEventListener('click', () => {
+            this.mostrarPantalla('inicio');
+            this.mostrarMenu('principal'); // Resetea el menú interior
+        });
+        
+        document.querySelector('[data-action="abrir-ajustes"]').addEventListener('click', () => this.mostrarMenu('ajustes'));
+        document.querySelector('[data-action="guardar-ajustes"]').addEventListener('click', () => this.mostrarMenu('principal'));
+        
+        // Manejadores para el nuevo menú de ayuda
+        document.querySelector('[data-action="abrir-ayuda"]').addEventListener('click', () => this.mostrarMenu('ayuda'));
+        document.querySelector('[data-action="cerrar-ayuda"]').addEventListener('click', () => this.mostrarMenu('principal'));
         
         document.querySelectorAll('.control-segmentado').forEach(grupo => {
             grupo.addEventListener('click', e => {
@@ -92,7 +103,7 @@ export class View {
         slider.addEventListener('input', e => valorSpan.textContent = e.target.value);
     }
 
-    bindEventosJuego(handlerMover, handlerLanzar, handlerPausa, handlerAyuda, handlerContinuar, handlerSalir) {
+    bindEventosJuego(handlerMover, handlerLanzar, handlerPausa, handlerContinuar, handlerSalir) {
         this.canvas.addEventListener('mousemove', e => {
             const rect = this.canvas.getBoundingClientRect();
             const escalaX = this.canvas.width / rect.width;
@@ -102,10 +113,11 @@ export class View {
 
         document.querySelector('[data-action="pausar"]').addEventListener('click', handlerPausa);
         document.querySelector('[data-action="continuar"]').addEventListener('click', handlerContinuar);
-        document.querySelector('[data-action="salir"]').addEventListener('click', handlerSalir);
         
-        document.querySelector('[data-action="abrir-ayuda"]').addEventListener('click', handlerAyuda);
-        document.querySelector('[data-action="cerrar-ayuda"]').addEventListener('click', () => this.cerrarModal('ayuda'));
+        document.querySelector('[data-action="salir"]').addEventListener('click', () => {
+            this.mostrarMenu('principal');
+            handlerSalir();
+        });
     }
 
     renderizarJuego(estado) {
