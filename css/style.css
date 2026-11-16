@@ -154,8 +154,8 @@ body {
 }
 
 .btn--icono {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: var(--espacio-lg);
+    height: var(--espacio-lg);
     padding: 0;
     border-radius: 100%;
 }
