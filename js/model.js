@@ -6,6 +6,7 @@ export class Model {
         this.altoCanvas = 500;
         this.vidas = 3;
         this.tiempo = 0;
+        this.tiempoMs = 0;
         this.juegoTerminado = false;
         this.victoria = false;
         this.bolaEsperando = false;
@@ -25,6 +26,7 @@ export class Model {
     iniciarPartida(config) {
         this.vidas = 3;
         this.tiempo = 0;
+        this.tiempoMs = 0;
         this.juegoTerminado = false;
         this.victoria = false;
         
@@ -98,8 +100,11 @@ export class Model {
         }
     }
 
-    incrementarTiempo() {
-        if (!this.juegoTerminado) this.tiempo++;
+    actualizarTiempo(deltaMs) {
+        if (!this.juegoTerminado) {
+            this.tiempoMs += deltaMs;
+            this.tiempo = Math.floor(this.tiempoMs / 1000);
+        }
     }
 
     actualizarFisicas() {

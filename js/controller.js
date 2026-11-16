@@ -6,7 +6,7 @@ export class Controller {
         this.view = view;
         
         this.animacionID = null;
-        this.intervaloTiempo = null;
+        this.ultimoFrame = 0;
         this.enPausa = false;
 
         this.inicializarControlador();
@@ -30,8 +30,8 @@ export class Controller {
         this.view.mostrarPantalla('juego');
         this.enPausa = false;
         
-        this.iniciarReloj();
-        this.loop();
+        this.ultimoFrame = performance.now();
+        this.animacionID = requestAnimationFrame((ts) => this.loop(ts));
     }
 
     manejarMovimiento(x) {
@@ -46,13 +46,6 @@ export class Controller {
         }
     }
 
-    iniciarReloj() {
-        if (this.intervaloTiempo) clearInterval(this.intervaloTiempo);
-        this.intervaloTiempo = setInterval(() => {
-            if (!this.enPausa) this.model.incrementarTiempo();
-        }, 1000);
-    }
-
     pausarJuego() {
         this.enPausa = true;
         cancelAnimationFrame(this.animacionID);
@@ -62,29 +55,32 @@ export class Controller {
     reanudarJuego() {
         this.enPausa = false;
         this.view.cerrarModal('pausa');
-        this.loop();
+        this.ultimoFrame = performance.now();
+        this.animacionID = requestAnimationFrame((ts) => this.loop(ts));
     }
 
     salirAlMenu() {
         this.enPausa = true;
-        clearInterval(this.intervaloTiempo);
         cancelAnimationFrame(this.animacionID);
         this.view.cerrarModal('pausa');
         this.view.mostrarPantalla('inicio');
     }
 
-    loop() {
+    loop(timestamp) {
         if (this.enPausa) return;
 
+        const deltaMs = timestamp - this.ultimoFrame;
+        this.ultimoFrame = timestamp;
+
+        this.model.actualizarTiempo(deltaMs);
         this.model.actualizarFisicas();
         const estado = this.model.getEstado();
         this.view.renderizarJuego(estado);
 
         if (estado.juegoTerminado) {
-            clearInterval(this.intervaloTiempo);
             this.view.mostrarFin(estado.victoria, estado.tiempo);
         } else {
-            this.animacionID = requestAnimationFrame(() => this.loop());
+            this.animacionID = requestAnimationFrame((ts) => this.loop(ts));
         }
     }
 }
