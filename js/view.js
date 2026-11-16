@@ -26,7 +26,6 @@ export class View {
             tituloFin: document.querySelector('[data-bind="titulo-fin"]')
         };
         
-        // La ayuda ya no es un modal
         this.modales = {
             pausa: document.querySelector('[data-modal="pausa"]')
         };
