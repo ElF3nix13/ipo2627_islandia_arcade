@@ -33,14 +33,14 @@
     --fuente-titulo: 'Impact', 'Arial Black', sans-serif;
     --fuente-base: system-ui, -apple-system, sans-serif;
     
-    /* Escala de texto ajustada (Zoom +) */
+    /* Escala de texto */
     --txt-sm: 1rem;
     --txt-md: 1.15rem;
     --txt-lg: 1.5rem;
     --txt-xl: 3rem;
     --txt-2xl: clamp(3rem, 6vw, 4.5rem);
 
-    /* DISEÑO ESPACIAL Y LAYOUT (Escala aumentada) */
+    /* DISEÑO ESPACIAL Y LAYOUT */
     --espacio-2xs: 0.5rem;
     --espacio-xs: 0.75rem;
     --espacio-sm: 1.25rem;

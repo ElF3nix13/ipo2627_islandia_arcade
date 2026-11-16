@@ -45,7 +45,7 @@ body {
     width: var(--ancho-menu);
     text-align: center;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    max-height: 90vh; /* Seguridad: Evita que golpee el límite de la pantalla */
+    max-height: 90vh;
     overflow-y: auto;
 }
 
@@ -200,7 +200,7 @@ input[type="range"] {
 .hud {
     display: flex;
     justify-content: space-between;
-    width: var(--ancho-juego); /* Se ata al mismo cálculo del contenedor */
+    width: var(--ancho-juego);
     max-width: var(--ancho-max-juego);
     margin-bottom: var(--espacio-sm);
     align-items: center;
@@ -249,8 +249,8 @@ input[type="range"] {
 
 canvas {
     display: block;
-    width: 100%; /* Toma el ancho del contenedor dinámico... */
-    height: auto; /* ...y auto-adapta la altura respetando su ratio original */
+    width: 100%;
+    height: auto;
     background-color: #111;
 }
 
@@ -279,7 +279,7 @@ canvas {
     width: var(--ancho-modal);
     border-radius: var(--radio-md);
     text-align: center;
-    max-height: 90vh; /* Misma medida de seguridad que caja-menu */
+    max-height: 90vh;
     overflow-y: auto;
 }
 
@@ -308,7 +308,7 @@ canvas {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3.5rem; /* Ajustado dinámicamente con rem para el zoom */
+    width: 3.5rem;
     height: 3.5rem;
     background: var(--color-fondo);
     border-radius: var(--radio-sm);

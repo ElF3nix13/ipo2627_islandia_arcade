@@ -64,7 +64,6 @@ export class View {
         this.pantallas[nombre].classList.add('pantalla--activa');
     }
 
-    // Nuevo método para intercambiar menús internos de la pantalla de inicio
     mostrarMenu(nombre) {
         Object.values(this.menus).forEach(m => m.classList.add('oculto'));
         this.menus[nombre].classList.remove('oculto');
@@ -79,13 +78,12 @@ export class View {
         
         document.querySelector('[data-action="volver-menu"]').addEventListener('click', () => {
             this.mostrarPantalla('inicio');
-            this.mostrarMenu('principal'); // Resetea el menú interior
+            this.mostrarMenu('principal');
         });
         
         document.querySelector('[data-action="abrir-ajustes"]').addEventListener('click', () => this.mostrarMenu('ajustes'));
         document.querySelector('[data-action="guardar-ajustes"]').addEventListener('click', () => this.mostrarMenu('principal'));
         
-        // Manejadores para el nuevo menú de ayuda
         document.querySelector('[data-action="abrir-ayuda"]').addEventListener('click', () => this.mostrarMenu('ayuda'));
         document.querySelector('[data-action="cerrar-ayuda"]').addEventListener('click', () => this.mostrarMenu('principal'));
         

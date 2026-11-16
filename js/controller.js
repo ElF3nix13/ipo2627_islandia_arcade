@@ -15,7 +15,6 @@ export class Controller {
     inicializarControlador() {
         this.view.bindEventosInicio(() => this.iniciarJuego());
         
-        // Se ha eliminado handlerAyuda, ajustando a los 5 eventos reales
         this.view.bindEventosJuego(
             (x) => this.manejarMovimiento(x),
             () => this.lanzarBola(),
@@ -63,7 +62,6 @@ export class Controller {
     reanudarJuego() {
         this.enPausa = false;
         this.view.cerrarModal('pausa');
-        // Eliminado el cerrarModal('ayuda') que causaba el crash
         this.loop();
     }
 
